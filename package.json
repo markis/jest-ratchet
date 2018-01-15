@@ -21,14 +21,6 @@
       "html",
       "json-summary"
     ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 80,
-        "functions": 100,
-        "lines": 91.46,
-        "statements": 92.31
-      }
-    },
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/test-setup/"
