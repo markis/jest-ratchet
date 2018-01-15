@@ -17,6 +17,12 @@ before_install:
 
 install:
   - npm install
+  - npm install if-ver -g
+  - npm install codacy-coverage coveralls -g
 
 script:
   - npm test
+
+after_success:
+  - "cat coverage/lcov.info | coveralls"
+  - "cat coverage/lcov.info | codacy-coverage"

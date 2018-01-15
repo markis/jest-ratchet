@@ -1,5 +1,8 @@
 # Jest-Ratchet
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/dcf0bf468746ec3dc221/maintainability)](https://codeclimate.com/github/markis/jest-ratchet/maintainability)
+[![Build Status](https://travis-ci.org/markis/jest-ratchet.svg?branch=master)](https://travis-ci.org/markis/jest-ratchet)
+[![Known Vulnerabilities](https://snyk.io/test/github/markis/jest-ratchet/badge.svg?targetFile=package.json)](https://snyk.io/test/github/markis/jest-ratchet?targetFile=package.json)
 [![Greenkeeper badge](https://badges.greenkeeper.io/markis/jest-ratchet.svg)](https://greenkeeper.io/)
 
 Ratchet up code coverage - keep test coverage going only one direction -- up

@@ -17,7 +17,7 @@
   "license": "MIT",
   "jest": {
     "collectCoverage": true,
-    "coverageReporters": ["json-summary"],
+    "coverageReporters": ["json-summary", "lcovonly"],
     "coverageThreshold": {
       "global": {
         "branches": 80,
