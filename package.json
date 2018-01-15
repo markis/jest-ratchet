@@ -1,0 +1,66 @@
+{
+  "name": "jest-ratchet",
+  "version": "0.0.1",
+  "description": "Ratchet up code coverage - keep test coverage going only one direction -- up",
+  "keywords": [
+    "jest",
+    "coverage",
+    "test",
+    "test-coverage",
+    "jest-ratchet"
+  ],
+  "author": "Markis Taylor <m@rkis.cc>",
+  "main": "index.js",
+  "engines": {
+    "node": ">=4"
+  },
+  "license": "MIT",
+  "jest": {
+    "collectCoverage": true,
+    "coverageReporters": [
+      "html",
+      "json-summary"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 100,
+        "lines": 91.46,
+        "statements": 92.31
+      }
+    },
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/test-setup/"
+    ],
+    "globals": {
+      "ts-jest": {
+        "skipBabel": true
+      }
+    },
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "^.+\\.test\\.tsx?$",
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "tsx"
+    ],
+    "verbose": true
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "test": "jest --no-cache"
+  },
+  "devDependencies": {
+    "@types/jest": "^22.0.1",
+    "@types/node": "9.3.0",
+    "jest": "^22.0.6",
+    "rollup": "0.54.0",
+    "rollup-plugin-typescript": "0.8.1",
+    "ts-jest": "^22.0.1",
+    "tslint": "^5.9.1",
+    "typescript": "2.6.2"
+  }
+}

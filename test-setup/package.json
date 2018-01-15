@@ -1,0 +1,18 @@
+{
+  "name": "test-project",
+  "jest": {
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json-summary"
+    ],
+    "reporters": [
+      "<rootDir>/../index.js"
+    ],
+    "rootDir": "./",
+    "testRegex": "\\.test\\.jsx?$",
+    "verbose": true
+  },
+  "devDependencies": {
+    "jest": "^22.0.6"
+  }
+}
