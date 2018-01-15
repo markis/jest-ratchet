@@ -17,11 +17,7 @@
   "license": "MIT",
   "jest": {
     "collectCoverage": true,
-    "coverageReporters": [
-      "text",
-      "html",
-      "json-summary"
-    ],
+    "coverageReporters": ["json-summary"],
     "coverageThreshold": {
       "global": {
         "branches": 80,
