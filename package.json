@@ -47,7 +47,8 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "test": "jest --no-cache"
+    "prepublish": "tslint --project . && jest && rollup -c",
+    "test": "tslint --project . && jest --no-cache"
   },
   "devDependencies": {
     "@types/jest": "^22.0.1",

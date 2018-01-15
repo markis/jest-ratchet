@@ -9,10 +9,5 @@
     "noUnusedParameters": true,
     "strictNullChecks": true,
     "experimentalDecorators": true
-  },
-  "exclude": [
-    "node_modules",
-    "built",
-    "index.d.ts"
-  ]
+  }
 }
