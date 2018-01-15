@@ -7,33 +7,21 @@ import {
 } from './interfaces';
 
 export function setCoverage(
-  source: JestCoverage,
-  result: JestCoverage,
+  sourceCoverage: JestCoverage,
+  resultCoverage: JestCoverage,
 ): void {
-  for (const key of Object.keys(source)) {
-    source[key].branches = _setSingleCoverage(
-      source[key].branches,
-      result[key].branches,
-    );
-    source[key].functions = _setSingleCoverage(
-      source[key].functions,
-      result[key].functions,
-    );
-    source[key].lines = _setSingleCoverage(
-      source[key].lines,
-      result[key].lines,
-    );
-    source[key].statements = _setSingleCoverage(
-      source[key].statements,
-      result[key].statements,
-    );
+  for (const key of Object.keys(sourceCoverage)) {
+    const source = sourceCoverage[key];
+    const result = resultCoverage[key];
+    source.branches = setSingleCoverage(source.branches, result.branches);
+    source.functions = setSingleCoverage(source.functions, result.functions);
+    source.lines = setSingleCoverage(source.lines, result.lines);
+    source.statements = setSingleCoverage(source.statements, result.statements);
   }
 }
 
-function _setSingleCoverage(sourceValue?: number, resultValue?: number){
-  if (typeof sourceValue === 'number' && typeof resultValue === 'number') {
-    return resultValue;
-  }
+function setSingleCoverage(sourceValue?: number, resultValue?: number) {
+  return typeof resultValue === 'number' ? resultValue : sourceValue;
 }
 
 export function ratchetCoverage(
