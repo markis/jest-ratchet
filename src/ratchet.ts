@@ -11,29 +11,12 @@ export function setCoverage(
   result: JestCoverage,
 ): void {
   for (const key of Object.keys(source)) {
-    if (
-      typeof source[key].branches === 'number'
-      && typeof result[key].branches === 'number'
-    ) {
-      source[key].branches = result[key].branches;
-    }
-    if (
-      typeof source[key].lines === 'number'
-      && typeof result[key].lines === 'number'
-    ) {
-      source[key].lines = result[key].lines;
-    }
-    if (
-      typeof source[key].functions === 'number'
-      && typeof result[key].functions === 'number'
-    ) {
-      source[key].functions = result[key].functions;
-    }
-    if (
-      typeof source[key].statements === 'number'
-      && typeof result[key].statements === 'number'
-    ) {
-      source[key].statements = result[key].statements;
+    for (const type of ['branches', 'functions', 'lines', 'statements']) {
+      const keyValue = source[key][type];
+      const resultValue = result[key][type];
+      if (typeof keyValue === 'number' && typeof resultValue === 'number') {
+        source[key][type] = resultValue;
+      }
     }
   }
 }
@@ -67,17 +50,9 @@ function _ratchetSingleNumberCoverage(
   num: number | undefined,
   category: IstanbulCoverageCategory,
 ) {
-  if (typeof num === 'number') {
-    if (num > 0) {
-      if (num <= category.pct) {
-        return category.pct;
-      }
-    } else if (num < 0) {
-      const covered = 0 - category.covered;
-      if (num >= covered) {
-        return covered;
-      }
-    }
+  if (num && num > 0 && num <= category.pct) {
+    return category.pct;
+  } else if (num && num < 0 && num >= -category.covered) {
+    return -category.covered;
   }
-  return undefined;
 }

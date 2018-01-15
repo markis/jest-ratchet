@@ -28,6 +28,8 @@ export interface JestCoverageCategory {
   functions?: number;
   lines?: number;
   statements?: number;
+
+  [key: string]: number | undefined;
 }
 
 export interface RatchetOptions {
