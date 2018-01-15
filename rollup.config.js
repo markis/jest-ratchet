@@ -6,18 +6,9 @@ module.exports = {
     file: 'index.js',
     format: 'cjs',
   },
-  context: 'this',
   external: [
-    'chai',
-    'child_process',
-    'fb-watchman',
     'fs',
-    'inversify',
-    'path',
-    'sinon',
-    'reflect-metadata',
-    'ts-helpers',
-    'tslib'
+    'path'
   ],
   plugins: [
     typescript({
