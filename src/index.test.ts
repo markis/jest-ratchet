@@ -1,8 +1,9 @@
+import { resolve } from 'path';
 import JestRatchet from './index';
 
 const mockConfig = {
   collectCoverage: true,
-  coverageDirectory: './coverage-example',
+  coverageDirectory: './example/coverage',
   coverageReporters: ['json-summary'],
   coverageThreshold: {
     global: {
@@ -12,58 +13,48 @@ const mockConfig = {
       statements: 80,
     },
   },
+  rootDir: './example',
 };
-const mockJestConfig = `{
-  "collectCoverage": true,
-  "coverageReporters": [
-    "json-summary"
-  ],
-  "coverageThreshold": {
-    "global": {
-      "branches": 100,
-      "functions": 50,
-      "lines": 66.67,
-      "statements": 66.67
-    }
-  }
-}`;
 
-const mockCoverage = `{
-  "total": {
-    "lines": {
-      "total": 3,
-      "covered": 2,
-      "skipped": 0,
-      "pct": 66.67
-    },
-    "statements": {
-      "total": 3,
-      "covered": 2,
-      "skipped": 0,
-      "pct": 66.67
-    },
-    "functions": {
-      "total": 2,
-      "covered": 1,
-      "skipped": 0,
-      "pct": 50
-    },
-    "branches": {
-      "total": 0,
-      "covered": 0,
-      "skipped": 0,
-      "pct": 100
-    }
-  }
-}`;
-
-describe('JestRatchet', () => {
+describe('jest-ratchet', () => {
+  beforeAll(() => {
+    jest.mock('fs');
+    process.cwd = jest.fn().mockReturnValue(resolve('./example'));
+  });
+  afterAll(() => {
+    jest.unmock('fs');
+  });
 
   it('will initialize without error', () => {
-    const jestRatchet = new JestRatchet(mockConfig);
-    jestRatchet.getLastError();
+    const config = {
+      ...mockConfig,
+      collectCoverage: true,
+      coverageReporters: ['json-summary'],
+    };
+    const jestRatchet = new JestRatchet(config);
+
+    expect(jestRatchet.getLastError).not.toThrowError();
   });
-  it.skip('will run ratchet coverage report', () => {
+
+  it('will throw error when collectCoverage is not enabled', () => {
+    const config = {
+      ...mockConfig,
+      collectCoverage: false,
+      coverageReporters: undefined,
+    };
+    const jestRatchet = new JestRatchet(config);
+
+    expect(jestRatchet.getLastError).toThrowError(/collectCoverage/);
+  });
+
+  it('will run ratchet coverage report', () => {
+    const jestRatchet = new JestRatchet(mockConfig);
+    jestRatchet.onRunComplete();
+  });
+
+  it('will respect the --config flag', () => {
+    process.argv = ['--config', 'jestconfig.json'];
+
     const jestRatchet = new JestRatchet(mockConfig);
     jestRatchet.onRunComplete();
   });

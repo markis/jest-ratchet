@@ -56,25 +56,25 @@ function _ratchetSingleCoverage(
 ) {
   const { branches, functions, lines, statements } = threshold;
   return {
-    branches: _ratchetSingleTypeCoverage(branches, summary.branches),
-    functions: _ratchetSingleTypeCoverage(functions, summary.functions),
-    lines: _ratchetSingleTypeCoverage(lines, summary.lines),
-    statements: _ratchetSingleTypeCoverage(statements, summary.statements),
+    branches: _ratchetSingleNumberCoverage(branches, summary.branches),
+    functions: _ratchetSingleNumberCoverage(functions, summary.functions),
+    lines: _ratchetSingleNumberCoverage(lines, summary.lines),
+    statements: _ratchetSingleNumberCoverage(statements, summary.statements),
   };
 }
 
-function _ratchetSingleTypeCoverage(
-  type: number | undefined,
+function _ratchetSingleNumberCoverage(
+  num: number | undefined,
   category: IstanbulCoverageCategory,
 ) {
-  if (typeof type === 'number') {
-    if (type > 0) {
-      if (type <= category.pct) {
+  if (typeof num === 'number') {
+    if (num > 0) {
+      if (num <= category.pct) {
         return category.pct;
       }
-    } else if (type < 0) {
+    } else if (num < 0) {
       const covered = 0 - category.covered;
-      if (type <= covered) {
+      if (num >= covered) {
         return covered;
       }
     }

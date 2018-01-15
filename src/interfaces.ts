@@ -12,9 +12,9 @@ export interface IstanbulCoverageCategories {
 }
 
 export interface IstanbulCoverageCategory {
-  total: number;
+  total?: number;
   covered: number;
-  skipped: number;
+  skipped?: number;
   pct: number;
 }
 

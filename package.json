@@ -18,18 +18,22 @@
   "jest": {
     "collectCoverage": true,
     "coverageReporters": [
+      "text",
       "html",
       "json-summary"
     ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    },
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/test-setup/"
     ],
-    "globals": {
-      "ts-jest": {
-        "skipBabel": true
-      }
-    },
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },

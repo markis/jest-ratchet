@@ -1,0 +1,3 @@
+{"total": {"lines":{"total":3,"covered":2,"skipped":0,"pct":66.67},"statements":{"total":3,"covered":2,"skipped":0,"pct":66.67},"functions":{"total":2,"covered":1,"skipped":0,"pct":50},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
+,"/Volumes/Files/src/jest-ratchet/example/index.js": {"lines":{"total":3,"covered":2,"skipped":0,"pct":66.67},"functions":{"total":2,"covered":1,"skipped":0,"pct":50},"statements":{"total":3,"covered":2,"skipped":0,"pct":66.67},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
+}

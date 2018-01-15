@@ -4,11 +4,14 @@ import { Config, IstanbulCoverage, JestCoverage } from './interfaces';
 import { findCoverageSummaryPath, findJestConfigPath } from './locations';
 import { ratchetCoverage, setCoverage } from './ratchet';
 
-export default class JestReporterCoverageRatchet {
+export default class JestRatchet {
   constructor(
     private globalConfig: Config,
     // private ratchetOptions: RatchetOptions = {},
-  ) {}
+  ) {
+    this.onRunComplete = this.onRunComplete.bind(this);
+    this.getLastError = this.getLastError.bind(this);
+  }
 
   public onRunComplete() {
     const coverageDirectory = this.globalConfig.coverageDirectory!;

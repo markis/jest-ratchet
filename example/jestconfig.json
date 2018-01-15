@@ -1,0 +1,20 @@
+{
+  "collectCoverage": true,
+  "coverageReporters": [
+    "json-summary"
+  ],
+  "coverageThreshold": {
+    "global": {
+      "branches": 100,
+      "functions": 50,
+      "lines": 50,
+      "statements": 50
+    }
+  },
+  "reporters": [
+    "<rootDir>/../index.js"
+  ],
+  "rootDir": "./",
+  "testRegex": "\\.test\\.jsx?$",
+  "verbose": true
+}

@@ -5,7 +5,7 @@
 /test.js.map
 *.log
 .vscode/
-coverage/
+/coverage/
 built/
 node_modules/
 typings/
