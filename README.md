@@ -1,5 +1,7 @@
 # Jest-Ratchet
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/markis/jest-ratchet.svg)](https://greenkeeper.io/)
+
 Ratchet up code coverage - keep test coverage going only one direction -- up
 
 Jest-Ratchet is a coverage watcher for Jest.  Everytime a new level of coverage is reached Jest-Ratchet will automatically update the coverageThreshold.
