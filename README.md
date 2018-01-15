@@ -2,7 +2,7 @@
 
 Ratchet up code coverage - keep test coverage going only one direction -- up
 
-Jest-Ratchet is a coverage reporter for Jest.  It works with coverage and coverageThreshold settings in Jest.  Everytime a new level of coverage is reached Jest-Ratchet will automatically update the coverageThreshold.
+Jest-Ratchet is a coverage watcher for Jest.  Everytime a new level of coverage is reached Jest-Ratchet will automatically update the coverageThreshold.
 
 ### Installation
 
