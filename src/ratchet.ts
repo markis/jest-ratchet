@@ -11,13 +11,28 @@ export function setCoverage(
   result: JestCoverage,
 ): void {
   for (const key of Object.keys(source)) {
-    for (const type of ['branches', 'functions', 'lines', 'statements']) {
-      const keyValue = source[key][type];
-      const resultValue = result[key][type];
-      if (typeof keyValue === 'number' && typeof resultValue === 'number') {
-        source[key][type] = resultValue;
-      }
-    }
+    source[key].branches = _setSingleCoverage(
+      source[key].branches,
+      result[key].branches,
+    );
+    source[key].functions = _setSingleCoverage(
+      source[key].functions,
+      result[key].functions,
+    );
+    source[key].lines = _setSingleCoverage(
+      source[key].lines,
+      result[key].lines,
+    );
+    source[key].statements = _setSingleCoverage(
+      source[key].statements,
+      result[key].statements,
+    );
+  }
+}
+
+function _setSingleCoverage(sourceValue?: number, resultValue?: number){
+  if (typeof sourceValue === 'number' && typeof resultValue === 'number') {
+    return resultValue;
   }
 }
 
