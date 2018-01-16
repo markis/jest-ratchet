@@ -9,11 +9,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strictNullChecks": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "typeRoots": [
-      "node_modules/@types",
-      "src/types"
-    ]
+    "experimentalDecorators": true
   }
 }
