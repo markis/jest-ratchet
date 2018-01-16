@@ -1,18 +1,32 @@
 import { isAbsolute, resolve } from 'path';
+import { Config } from './interfaces';
+
+// tslint:disable:no-var-requires
+const parser = require('yargs-parser');
 
 type Argv = typeof process.argv;
 
 export function findJestConfigPath(cwd: string, argv: Argv) {
   let configLocation = 'package.json';
-  const idxConfig = argv && argv.indexOf('--config');
-  if (idxConfig > -1) {
-    configLocation = argv[idxConfig + 1];
+  const args = parser(argv.slice(2));
+  if (args && args.config) {
+    configLocation = args.config;
   }
   if (!isAbsolute(configLocation)) {
     configLocation = resolve(cwd, configLocation);
   }
 
   return configLocation;
+}
+
+export function findCoveragePath(config: Config) {
+  if (config.coverageDirectory) {
+    return config.coverageDirectory;
+  }
+  if (config.rootDir) {
+    return resolve(config.rootDir, 'coverage');
+  }
+  return resolve(process.cwd(), 'coverage');
 }
 
 export function findCoverageSummaryPath(coverageDirectory: string) {

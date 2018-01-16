@@ -41,4 +41,5 @@ export interface Config {
   coverageDirectory?: string;
   coverageReporters?: string[];
   coverageThreshold?: JestCoverage;
+  rootDir?: string;
 }

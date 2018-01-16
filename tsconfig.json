@@ -3,11 +3,17 @@
     "module": "commonjs",
     "target": "es5",
     "lib": [ "dom", "es6" ],
+    "allowJs": true,
     "strict": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strictNullChecks": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types"
+    ]
   }
 }
