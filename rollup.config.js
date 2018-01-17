@@ -8,7 +8,8 @@ module.exports = {
   },
   external: [
     'fs',
-    'path'
+    'path',
+    'json-in-place'
   ],
   plugins: [
     typescript({
