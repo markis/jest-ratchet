@@ -1,4 +1,4 @@
-import { ratchetCoverage, setCoverage } from './ratchet';
+import { ratchetCoverage } from './ratchet';
 
 const mockCoverage = {
   total: {
@@ -51,50 +51,4 @@ describe('ratchet', () => {
     });
   });
 
-  it('will set coverage', () => {
-    const mockSource = {
-      global: {
-        branches: 50,
-        functions: 50,
-        lines: 50,
-        statements: 50,
-      },
-    };
-    const mockResult = {
-      global: {
-        branches: 80,
-        functions: 80,
-        lines: 80,
-        statements: 80,
-      },
-    };
-    setCoverage(mockSource, mockResult);
-
-    expect(mockSource.global.branches).toBe(80);
-    expect(mockSource.global.functions).toBe(80);
-    expect(mockSource.global.lines).toBe(80);
-    expect(mockSource.global.statements).toBe(80);
-  });
-
-  it('will set coverage for partial source', () => {
-    const mockSource: any = {
-      global: {
-        branches: 50,
-      },
-    };
-    const mockResult = {
-      global: {
-        branches: 80,
-        functions: 80,
-        lines: 80,
-        statements: 80,
-      },
-    };
-    setCoverage(mockSource, mockResult);
-
-    expect(mockSource.global.branches).toBe(80);
-    expect(mockSource.global.functions).toBe(80);
-    expect(mockSource.global.lines).toBe(80);
-    expect(mockSource.global.statements).toBe(80);
-  });
 });

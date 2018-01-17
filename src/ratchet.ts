@@ -6,24 +6,6 @@ import {
   JestCoverageCategory,
 } from './interfaces';
 
-export function setCoverage(
-  sourceCoverage: JestCoverage,
-  resultCoverage: JestCoverage,
-): void {
-  for (const key of Object.keys(sourceCoverage)) {
-    const source = sourceCoverage[key];
-    const result = resultCoverage[key];
-    source.branches = setSingleCoverage(source.branches, result.branches);
-    source.functions = setSingleCoverage(source.functions, result.functions);
-    source.lines = setSingleCoverage(source.lines, result.lines);
-    source.statements = setSingleCoverage(source.statements, result.statements);
-  }
-}
-
-function setSingleCoverage(sourceValue?: number, resultValue?: number) {
-  return typeof resultValue === 'number' ? resultValue : sourceValue;
-}
-
 export function ratchetCoverage(
   threshold: JestCoverage,
   summary: IstanbulCoverage,

@@ -1,13 +1,14 @@
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync } from 'fs';
 
 import { getLastError } from './errors';
 import { Config, IstanbulCoverage, JestCoverage } from './interfaces';
+import { updateFile } from './json';
 import {
   findCoveragePath,
   findCoverageSummaryPath,
   findJestConfigPath,
 } from './locations';
-import { ratchetCoverage, setCoverage } from './ratchet';
+import { ratchetCoverage } from './ratchet';
 
 export default class JestRatchet {
   constructor(
@@ -29,14 +30,7 @@ export default class JestRatchet {
       const ratchetResult = ratchetCoverage(coverageThreshold, coverageSummary);
 
       const jestConfigPath = findJestConfigPath(process.cwd(), process.argv);
-      const jestConfigRaw = readFileSync(jestConfigPath, 'utf-8');
-      const jestConfig = JSON.parse(jestConfigRaw);
-      if (jestConfig.jest) {
-        setCoverage(jestConfig.jest.coverageThreshold, ratchetResult);
-      } else {
-        setCoverage(jestConfig.coverageThreshold, ratchetResult);
-      }
-      writeFileSync(jestConfigPath, JSON.stringify(jestConfig, null, 2), 'utf-8');
+      updateFile(jestConfigPath, ratchetResult);
     } catch (e) {
       // tslint:disable-next-line
       console.error(e);
