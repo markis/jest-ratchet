@@ -9,6 +9,8 @@ const mockThreshold = {
   },
 };
 
+jest.mock('fs');
+
 describe('json', () => {
   it('will ratchet percents', () => {
     const json = `
