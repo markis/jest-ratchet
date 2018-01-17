@@ -16,14 +16,10 @@ const mockConfig = {
   rootDir: './example',
 };
 
+jest.mock('fs');
+process.cwd = jest.fn().mockReturnValue(resolve('./example'));
+
 describe('jest-ratchet', () => {
-  beforeAll(() => {
-    jest.mock('fs');
-    process.cwd = jest.fn().mockReturnValue(resolve('./example'));
-  });
-  afterAll(() => {
-    jest.unmock('fs');
-  });
 
   it('will initialize without error', () => {
     const config = {

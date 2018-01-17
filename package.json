@@ -60,6 +60,7 @@
     "typescript": "2.6.2"
   },
   "dependencies": {
+    "json-in-place": "1.0.1",
     "yargs-parser": "8.1.0"
   }
 }
