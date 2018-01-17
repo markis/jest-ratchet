@@ -12,7 +12,7 @@ const mockThreshold = {
 jest.mock('fs');
 
 describe('json', () => {
-  it('will ratchet percents', () => {
+  it.skip('will ratchet percents', () => {
     const json = `
     {
       "coverageThreshold": {
