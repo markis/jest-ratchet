@@ -22,10 +22,18 @@ export function setCoverage(
   const inplace = jsonInplace as any;
   const newSource = inplace(source);
   for (const key of Object.keys(result)) {
-    newSource.set(prefix + key + '.branches', result[key].branches);
-    newSource.set(prefix + key + '.functions', result[key].functions);
-    newSource.set(prefix + key + '.lines', result[key].lines);
-    newSource.set(prefix + key + '.statements', result[key].statements);
+    if (result[key].branches) {
+      newSource.set(prefix + key + '.branches', result[key].branches);
+    }
+    if (result[key].functions) {
+      newSource.set(prefix + key + '.functions', result[key].functions);
+    }
+    if (result[key].lines) {
+      newSource.set(prefix + key + '.lines', result[key].lines);
+    }
+    if (result[key].statements) {
+      newSource.set(prefix + key + '.statements', result[key].statements);
+    }
   }
   return newSource.toString();
 }
