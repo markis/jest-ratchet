@@ -9,7 +9,8 @@ export default {
   external: [
     'fs',
     'path',
-    'json-in-place'
+    'json-in-place',
+    'yargs-parser'
   ],
   plugins: [
     typescript({
