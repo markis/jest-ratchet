@@ -43,12 +43,12 @@ describe('jest-ratchet', () => {
     expect(jestRatchet.getLastError).toThrowError(/collectCoverage/);
   });
 
-  it.skip('will run ratchet coverage report', () => {
+  it('will run ratchet coverage report', () => {
     const jestRatchet = new JestRatchet(mockConfig);
     jestRatchet.onRunComplete();
   });
 
-  it.skip('will respect the --config flag', () => {
+  it('will respect the --config flag', () => {
     process.argv = ['--config', 'jestconfig.json'];
 
     const jestRatchet = new JestRatchet(mockConfig);

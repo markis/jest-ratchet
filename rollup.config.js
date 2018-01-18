@@ -1,11 +1,11 @@
-const typescript = require('rollup-plugin-typescript');
+import typescript from 'rollup-plugin-typescript2';
 
-module.exports = {
-  input: './src/index.ts',
-  output: {
+export default {
+  input: 'src/index.ts',
+  output: [{
     file: 'index.js',
-    format: 'cjs',
-  },
+    format: 'cjs'
+  }],
   external: [
     'fs',
     'path',
@@ -14,6 +14,6 @@ module.exports = {
   plugins: [
     typescript({
       typescript: require('typescript')
-    }),
+    })
   ]
-};
+}

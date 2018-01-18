@@ -4,6 +4,7 @@
 /test.js
 /test.js.map
 *.log
+.rpt2_cache/
 .vscode/
 /coverage/
 built/
