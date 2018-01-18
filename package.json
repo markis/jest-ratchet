@@ -45,9 +45,9 @@
     "verbose": true
   },
   "scripts": {
-    "build": "tsc && rollup -c",
+    "build": "rollup -c",
     "prepublish": "tslint src/*.ts && jest && rollup -c",
-    "test": "tslint src/*.ts && jest --no-cache"
+    "test": "tslint src/*.ts && tsc --noemit && jest --no-cache"
   },
   "devDependencies": {
     "@types/jest": "22.0.1",
