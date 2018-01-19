@@ -9,10 +9,21 @@
     "test-coverage",
     "jest-ratchet"
   ],
-  "author": "Markis Taylor <m@rkis.cc>",
+  "author": {
+    "name": "Markis Taylor",
+    "email": "m@rkis.cc"
+  },
   "main": "index.js",
   "engines": {
     "node": ">=4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/markis/jest-ratchet.git"
+  },
+  "bugs": {
+    "url" : "https://github.com/markis/jest-ratchet/issues",
+    "email": "m@rkis.cc"
   },
   "license": "MIT",
   "jest": {
