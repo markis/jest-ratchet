@@ -29,9 +29,7 @@ Add `jest-ratchet` to the `reporters` section.  And also ensure that `collectCov
 ``` json
 {
   "collectCoverage": true,
-  "coverageReporters": [
-    "json-summary"
-  ],
-  "reporters": ["jest-ratchet"]
+  "coverageReporters": [ "json-summary" ],
+  "reporters": [ "jest-ratchet" ]
 }
 ```
