@@ -11,6 +11,7 @@
     "noUnusedParameters": true,
     "strictNullChecks": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "typeRoots": [
       "./node_modules/@types/",
       "./types/"

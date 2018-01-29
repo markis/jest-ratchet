@@ -1,3 +1,6 @@
+jest.mock('fs');
+
+import fs from 'fs';
 import { resolve } from 'path';
 import JestRatchet from './index';
 
@@ -16,7 +19,6 @@ const mockConfig = {
   rootDir: './example',
 };
 
-jest.mock('fs');
 process.cwd = jest.fn().mockReturnValue(resolve('./example'));
 
 describe('jest-ratchet', () => {
@@ -43,7 +45,52 @@ describe('jest-ratchet', () => {
     expect(jestRatchet.getLastError).toThrowError(/collectCoverage/);
   });
 
-  it('will run ratchet coverage report', () => {
+  it('will ratchet percentages', () => {
+    fs.readFileSync = jest.fn()
+      .mockReturnValueOnce(JSON.stringify({
+        total: {
+          branches: {pct: 100},
+          functions: {pct: 100},
+          lines: {pct: 100},
+          statements: {pct: 100},
+        },
+      }))
+      .mockReturnValueOnce(JSON.stringify({
+        coverageThreshold: {
+          global: {
+            branches: 50,
+            functions: 50,
+            lines: 50,
+            statements: 50,
+          },
+        },
+      }));
+
+    const jestRatchet = new JestRatchet(mockConfig);
+    jestRatchet.onRunComplete();
+  });
+
+  it('will ratchet lines', () => {
+    fs.readFileSync = jest.fn()
+      .mockReturnValueOnce(JSON.stringify({
+        total: {
+          branches: {covered: 100},
+          functions: {covered: 100},
+          lines: {covered: 100},
+          statements: {covered: 100},
+        },
+      }))
+      .mockReturnValueOnce(JSON.stringify({
+        coverageThreshold: {
+          global: {
+            branches: -50,
+            functions: -50,
+            lines: -50,
+            statements: -50,
+          },
+        },
+      }));
+
     const jestRatchet = new JestRatchet(mockConfig);
     jestRatchet.onRunComplete();
   });
