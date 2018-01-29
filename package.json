@@ -61,7 +61,7 @@
     "test": "tslint src/*.ts && tsc --noemit && jest --no-cache"
   },
   "devDependencies": {
-    "@types/jest": "22.0.1",
+    "@types/jest": "22.1.0",
     "@types/node": "9.4.0",
     "jest": "22.1.4",
     "rollup": "0.55.0",
