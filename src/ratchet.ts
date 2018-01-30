@@ -13,31 +13,31 @@ export function ratchetCoverage(
   const result: any = {};
   for (const key of Object.keys(threshold)) {
     const summaryKey = key === 'global' ? 'total' : key;
-    result[key] = _ratchetSingleCoverage(threshold[key], summary[summaryKey]);
+    result[key] = ratchetSingleCoverage(threshold[key], summary[summaryKey]);
   }
   return result;
 }
 
-function _ratchetSingleCoverage(
+function ratchetSingleCoverage(
   threshold: JestCoverageCategory,
   summary: IstanbulCoverageCategories,
 ) {
   const { branches, functions, lines, statements } = threshold;
   return {
-    branches: _ratchetSingleNumberCoverage(branches, summary.branches),
-    functions: _ratchetSingleNumberCoverage(functions, summary.functions),
-    lines: _ratchetSingleNumberCoverage(lines, summary.lines),
-    statements: _ratchetSingleNumberCoverage(statements, summary.statements),
+    branches: ratchetSingleNumberCoverage(branches, summary.branches),
+    functions: ratchetSingleNumberCoverage(functions, summary.functions),
+    lines: ratchetSingleNumberCoverage(lines, summary.lines),
+    statements: ratchetSingleNumberCoverage(statements, summary.statements),
   };
 }
 
-function _ratchetSingleNumberCoverage(
+function ratchetSingleNumberCoverage(
   num: number | undefined,
   category: IstanbulCoverageCategory,
 ) {
-  if (num && num > 0 && num <= category.pct) {
+  if (num && category && num > 0 && num <= category.pct) {
     return category.pct;
-  } else if (num && num < 0 && num >= -category.covered) {
+  } else if (num && category && num < 0 && num >= -category.covered) {
     return -category.covered;
   }
 }

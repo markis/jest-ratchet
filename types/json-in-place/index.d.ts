@@ -1,4 +1,4 @@
-declare module "json-in-place" {
+declare module 'json-in-place' {
   const value: any;
   export default value;
 }

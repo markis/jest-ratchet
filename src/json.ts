@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync } from 'fs';
-import * as jsonInplace from 'json-in-place';
+import inplace from 'json-in-place';
 
 import { JestCoverage } from './interfaces';
 
@@ -19,7 +19,6 @@ export function setCoverage(
   prefix: string,
 ): string {
   prefix += 'coverageThreshold.';
-  const inplace = jsonInplace as any;
   const newSource = inplace(source);
   for (const key of Object.keys(result)) {
     if (result[key].branches) {
