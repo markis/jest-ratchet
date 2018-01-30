@@ -19,7 +19,8 @@
     "collectCoverage": true,
     "coverageReporters": [
       "json-summary",
-      "lcovonly"
+      "lcovonly",
+      "html"
     ],
     "coverageThreshold": {
       "global": {
@@ -36,7 +37,7 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "^.+\\.test\\.tsx?$",
+    "testRegex": "test\\.ts$",
     "moduleFileExtensions": [
       "js",
       "ts",
@@ -47,6 +48,7 @@
   "scripts": {
     "build": "rollup -c",
     "prepublish": "tslint src/*.ts && jest && rollup -c",
+    "jest": "jest",
     "test": "tslint src/*.ts && tsc --noemit && jest --no-cache"
   },
   "devDependencies": {
