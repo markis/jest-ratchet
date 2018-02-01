@@ -36,6 +36,7 @@ function watch() {
 
 fs.__addMockFile = __addMockFile;
 fs.__resetMockFiles = __resetMockFiles;
+fs.existsSync = function() { return false; };
 fs.readFileSync = readFileSync;
 fs.watch = watch;
 

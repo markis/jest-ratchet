@@ -1,4 +1,4 @@
-import { readFileSync, watch } from 'fs';
+import { closeSync, existsSync, mkdirSync, openSync, readFileSync, watch } from 'fs';
 
 import { getLastError } from './errors';
 import {
@@ -33,6 +33,13 @@ function onRunComplete(globalConfig: Config, options: RatchetOptions) {
     const coverageDirectory = findCoveragePath(globalConfig);
     const coverageSummaryPath = findCoverageSummaryPath(coverageDirectory);
     const jestConfigPath = findJestConfigPath(process.cwd(), process.argv);
+
+    if (!existsSync(coverageDirectory)) {
+      mkdirSync(coverageDirectory);
+    }
+    if (!existsSync(coverageSummaryPath)) {
+      closeSync(openSync(coverageSummaryPath, 'w'));
+    }
 
     const watcher = watch(coverageDirectory);
     watcher.once('change', () => {
