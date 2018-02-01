@@ -1,6 +1,6 @@
 {
   "name": "jest-ratchet",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Ratchet up code coverage - keep test coverage going only one direction -- up",
   "keywords": [
     "jest",
