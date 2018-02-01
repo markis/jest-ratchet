@@ -33,6 +33,7 @@ export interface JestCoverageCategory {
 }
 
 export interface RatchetOptions {
+  disable?: boolean;
   stop?: JestCoverage;
 }
 

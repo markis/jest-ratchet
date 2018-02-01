@@ -1,7 +1,11 @@
 import { readFileSync, watch } from 'fs';
 
 import { getLastError } from './errors';
-import { Config, IstanbulCoverage, JestCoverage } from './interfaces';
+import {
+  Config,
+  IstanbulCoverage,
+  RatchetOptions,
+} from './interfaces';
 import { updateFile } from './json';
 import {
   findCoveragePath,
@@ -11,39 +15,37 @@ import {
 import { ratchetCoverage } from './ratchet';
 
 export default class JestRatchet {
+  public getLastError: () => void;
+  public onRunComplete: () => void;
+
   constructor(
-    private globalConfig: Config,
-    // private ratchetOptions: RatchetOptions = {},
+    globalConfig: Config,
+    options: RatchetOptions = {},
   ) {
-    this.onRunComplete = this.onRunComplete.bind(this);
-    this.getLastError = this.getLastError.bind(this);
+    this.onRunComplete = onRunComplete.bind(this, globalConfig, options);
+    this.getLastError = getLastError.bind(this, globalConfig);
   }
+}
 
-  public onRunComplete() {
-    try {
-      const coverageDirectory = findCoveragePath(this.globalConfig);
-      const coverageSummaryPath = findCoverageSummaryPath(coverageDirectory);
+function onRunComplete(globalConfig: Config, options: RatchetOptions) {
+  options = options;
+  try {
+    const coverageDirectory = findCoveragePath(globalConfig);
+    const coverageSummaryPath = findCoverageSummaryPath(coverageDirectory);
+    const jestConfigPath = findJestConfigPath(process.cwd(), process.argv);
 
-      const watcher = watch(coverageDirectory);
-      watcher.once('change', () => {
-        watcher.close();
-        const coverageRaw = readFileSync(coverageSummaryPath, 'utf-8');
-        const coverageSummary: IstanbulCoverage = JSON.parse(coverageRaw);
-        const coverageThreshold: JestCoverage = this.globalConfig.coverageThreshold!;
+    const watcher = watch(coverageDirectory);
+    watcher.once('change', () => {
+      watcher.close();
+      const coverageRaw = readFileSync(coverageSummaryPath, 'utf-8');
+      const summary: IstanbulCoverage = JSON.parse(coverageRaw);
+      const threshold = globalConfig.coverageThreshold!;
+      const ratchetResult = ratchetCoverage(threshold, summary);
 
-        const ratchetResult = ratchetCoverage(coverageThreshold, coverageSummary);
-
-        const jestConfigPath = findJestConfigPath(process.cwd(), process.argv);
-
-        updateFile(jestConfigPath, ratchetResult);
-      });
-    } catch (e) {
-      // tslint:disable-next-line
-      console.error(e);
-    }
-  }
-
-  public getLastError() {
-    getLastError(this.globalConfig);
+      updateFile(jestConfigPath, ratchetResult);
+    });
+  } catch (e) {
+    // tslint:disable-next-line
+    console.error(e);
   }
 }
