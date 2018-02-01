@@ -161,6 +161,7 @@ describe('jest-ratchet', () => {
       /\/jestconfig\.json$/,
       JSON.stringify({ ...threshold }),
     );
+    fs.existsSync = () => true;
 
     const jestRatchet = new JestRatchet({ ...mockConfig, ...threshold });
     jestRatchet.onRunComplete();
