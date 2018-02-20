@@ -58,19 +58,19 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "prepublish": "tslint src/*.ts && jest && rollup -c",
+    "prepublishOnly": "tslint src/*.ts && jest && rollup -c",
     "jest": "jest",
     "test": "tslint src/*.ts && tsc --noemit && jest --no-cache"
   },
   "devDependencies": {
-    "@types/jest": "22.1.1",
-    "@types/node": "9.4.0",
-    "jest": "22.1.4",
-    "rollup": "0.55.0",
-    "rollup-plugin-typescript2": "0.10.0",
-    "ts-jest": "22.0.2",
+    "@types/jest": "22.1.3",
+    "@types/node": "9.4.6",
+    "jest": "22.4.0",
+    "rollup": "0.56.2",
+    "rollup-plugin-typescript2": "0.11.1",
+    "ts-jest": "22.0.4",
     "tslint": "5.9.1",
-    "typescript": "2.6.2"
+    "typescript": "2.7.2"
   },
   "dependencies": {
     "json-in-place": "1.0.1",
