@@ -3,6 +3,7 @@ jest.mock('fs');
 import _fs from 'fs';
 import { resolve } from 'path';
 import JestRatchet from './index';
+import { noop } from './noop';
 
 const fs = _fs as typeof _fs & {
   __addMockFile: (name: RegExp, value: string) => void;
@@ -14,11 +15,14 @@ const mockConfig = {
   coverageReporters: ['json-summary'],
 };
 
+const originalArgv = process.argv;
+
 describe('jest-ratchet', () => {
   beforeEach(() => {
     jest.resetAllMocks();
     fs.__resetMockFiles();
     process.cwd = jest.fn().mockReturnValue(resolve('./example'));
+    process.argv = originalArgv;
   });
 
   it('will initialize without error', () => {
@@ -48,6 +52,14 @@ describe('jest-ratchet', () => {
 
     const jestRatchet = new JestRatchet(mockConfig);
     jestRatchet.onRunComplete();
+  });
+
+  it('will do nothing when ratchet is disabled', () => {
+    process.argv = ['', '', '--disable-ratchet'];
+
+    const jestRatchet = new JestRatchet(mockConfig);
+
+    expect(jestRatchet.onRunComplete).toBe(noop);
   });
 
   it('will ratchet percentages', () => {
