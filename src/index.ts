@@ -1,4 +1,5 @@
 import { closeSync, existsSync, mkdirSync, openSync, readFileSync, watch } from 'fs';
+import parser from 'yargs-parser';
 
 import { getLastError } from './errors';
 import {
@@ -12,18 +13,22 @@ import {
   findCoverageSummaryPath,
   findJestConfigPath,
 } from './locations';
+import { noop } from './noop';
 import { ratchetCoverage } from './ratchet';
 
 export default class JestRatchet {
-  public getLastError: () => void;
-  public onRunComplete: () => void;
+  public getLastError: () => void = noop;
+  public onRunComplete: () => void = noop;
 
   constructor(
     globalConfig: Config,
     options: RatchetOptions = {},
   ) {
-    this.onRunComplete = onRunComplete.bind(this, globalConfig, options);
-    this.getLastError = getLastError.bind(this, globalConfig);
+    const args = parser(process.argv.slice(2));
+    if (!args.disableRatchet) {
+      this.onRunComplete = onRunComplete.bind(this, globalConfig, options);
+      this.getLastError = getLastError.bind(this, globalConfig);
+    }
   }
 }
 
