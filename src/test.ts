@@ -16,6 +16,7 @@ const mockConfig = {
 };
 
 const originalArgv = process.argv;
+const originalEnv = process.env;
 
 describe('jest-ratchet', () => {
   beforeEach(() => {
@@ -23,6 +24,8 @@ describe('jest-ratchet', () => {
     fs.__resetMockFiles();
     process.cwd = jest.fn().mockReturnValue(resolve('./example'));
     process.argv = originalArgv;
+    process.env = { ...originalEnv };
+    delete process.env.DISABLE_JEST_RATCHET;
   });
 
   it('will initialize without error', () => {
@@ -55,7 +58,7 @@ describe('jest-ratchet', () => {
   });
 
   it('will do nothing when ratchet is disabled', () => {
-    process.argv = ['', '', '--disable-ratchet'];
+    process.env.DISABLE_JEST_RATCHET = 'true';
 
     const jestRatchet = new JestRatchet(mockConfig);
 

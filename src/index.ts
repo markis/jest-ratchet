@@ -1,5 +1,4 @@
 import { closeSync, existsSync, mkdirSync, openSync, readFileSync, watch } from 'fs';
-import parser from 'yargs-parser';
 
 import { getLastError } from './errors';
 import {
@@ -24,8 +23,7 @@ export default class JestRatchet {
     globalConfig: Config,
     options: RatchetOptions = {},
   ) {
-    const args = parser(process.argv.slice(2));
-    if (!args.disableRatchet) {
+    if (!process.env.DISABLE_JEST_RATCHET) {
       this.onRunComplete = onRunComplete.bind(this, globalConfig, options);
       this.getLastError = getLastError.bind(this, globalConfig);
     }
