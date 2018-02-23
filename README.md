@@ -26,7 +26,7 @@ yarn add jest-ratchet --dev
 
 Add `jest-ratchet` to the `reporters` section.  And also ensure that `collectCoverage` is enabled and `json-summary` is added to the `coverageReporters`.
 
-``` json
+```json
 {
   "collectCoverage": true,
   "coverageReporters": [ "json-summary" ],
