@@ -39,12 +39,11 @@ function ratchetSingleNumberCoverage(
   category: IstanbulCoverageCategory,
   options: RatchetOptions,
 ) {
-  if (num && category && num > 0 && num <= category.pct) {
-    if (options.ratchetPercentagePadding) {
-      return Math.round(category.pct) - options.ratchetPercentagePadding;
-    } else {
-      return category.pct;
-    }
+  const ratchetPct = options.ratchetPercentagePadding
+    ? Math.round(category.pct) - options.ratchetPercentagePadding
+    : category.pct;
+  if (num && category && num > 0 && num <= ratchetPct) {
+    return ratchetPct;
   } else if (num && category && num < 0 && num >= -category.covered) {
     return -category.covered;
   }
