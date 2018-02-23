@@ -114,6 +114,49 @@ describe('jest-ratchet', () => {
         }));
   });
 
+  it('will pad the ratchet percentages', () => {
+    const PADDING = 2;
+    const threshold = {
+      coverageThreshold: {
+        global: {
+          branches: 50,
+        },
+      },
+    };
+    fs.__addMockFile(
+      /\/coverage-summary\.json$/,
+      JSON.stringify({
+        total: {
+          branches: {pct: 100},
+        },
+      }),
+    );
+    fs.__addMockFile(
+      /\/package\.json$/,
+      JSON.stringify({ ...threshold }),
+    );
+
+    const jestRatchet = new JestRatchet({
+      ...mockConfig,
+      ...threshold,
+      rootDir: './example',
+    }, {
+      ratchetPercentagePadding: PADDING,
+    });
+    jestRatchet.onRunComplete();
+
+    const writeFileSync = fs.writeFileSync as jest.Mock;
+    expect(writeFileSync.mock.calls[0][1])
+      .toEqual(
+        JSON.stringify({
+          coverageThreshold: {
+            global: {
+              branches: 98,
+            },
+          },
+        }));
+  });
+
   it('will respect the --config flag', () => {
     process.argv = ['', '', '--config', 'jestconfig.json'];
     const threshold = {

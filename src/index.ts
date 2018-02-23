@@ -50,7 +50,7 @@ function onRunComplete(globalConfig: Config, options: RatchetOptions) {
       const coverageRaw = readFileSync(coverageSummaryPath, 'utf-8');
       const summary: IstanbulCoverage = JSON.parse(coverageRaw);
       const threshold = globalConfig.coverageThreshold!;
-      const ratchetResult = ratchetCoverage(threshold, summary);
+      const ratchetResult = ratchetCoverage(threshold, summary, options);
 
       updateFile(jestConfigPath, ratchetResult);
     });
