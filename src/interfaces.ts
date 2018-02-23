@@ -33,8 +33,8 @@ export interface JestCoverageCategory {
 }
 
 export interface RatchetOptions {
-  disable?: boolean;
-  stop?: JestCoverage;
+  /** Pad the ratchet percentage by a specified number. */
+  ratchetPercentagePadding?: number;
 }
 
 export interface Config {
