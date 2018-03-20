@@ -1,4 +1,4 @@
-import typescript from 'rollup-plugin-typescript2';
+import typescript from '@markis/rollup-plugin-typescript';
 
 export default {
   input: 'src/index.ts',
