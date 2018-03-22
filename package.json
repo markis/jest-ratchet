@@ -65,7 +65,7 @@
   "devDependencies": {
     "@markis/rollup-plugin-typescript": "0.8.1-dev.4",
     "@types/jest": "22.2.0",
-    "@types/node": "9.4.7",
+    "@types/node": "9.6.0",
     "jest": "22.4.2",
     "rollup": "0.57.1",
     "ts-jest": "22.4.2",
