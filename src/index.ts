@@ -24,7 +24,7 @@ export default class JestRatchet {
     options: RatchetOptions = {},
   ) {
     if (!process.env.DISABLE_JEST_RATCHET) {
-      this.onRunComplete = onRunComplete.bind(this, globalConfig, options);
+      onRunComplete(globalConfig, options);
       this.getLastError = getLastError.bind(this, globalConfig);
     }
   }
