@@ -45,8 +45,15 @@ function onRunComplete(globalConfig: Config, options: RatchetOptions) {
     }
 
     const watcher = watch(coverageDirectory);
+    const closeWatcher = () => watcher.close();
+    const timeoutTimer = options.timeout && setTimeout(closeWatcher, options.timeout);
+
     watcher.once('change', () => {
-      watcher.close();
+      closeWatcher();
+      if (timeoutTimer) {
+        clearTimeout(timeoutTimer);
+      }
+
       const coverageRaw = readFileSync(coverageSummaryPath, 'utf-8');
       const summary: IstanbulCoverage = JSON.parse(coverageRaw);
       const threshold = globalConfig.coverageThreshold!;

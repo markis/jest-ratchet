@@ -35,6 +35,9 @@ export interface JestCoverageCategory {
 export interface RatchetOptions {
   /** Pad the ratchet percentage by a specified number. */
   ratchetPercentagePadding?: number;
+
+  /** After set period timeout waiting for changes. Default: wait forever */
+  timeout?: number;
 }
 
 export interface Config {
