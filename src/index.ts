@@ -31,7 +31,6 @@ export default class JestRatchet {
 }
 
 function onRunComplete(globalConfig: Config, options: RatchetOptions) {
-  options = options;
   try {
     const coverageDirectory = findCoveragePath(globalConfig);
     const coverageSummaryPath = findCoverageSummaryPath(coverageDirectory);
