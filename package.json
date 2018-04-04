@@ -74,6 +74,6 @@
   },
   "dependencies": {
     "json-in-place": "1.0.1",
-    "yargs-parser": "9.0.2"
+    "yargs-parser": "10.0.0"
   }
 }
