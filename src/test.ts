@@ -146,7 +146,7 @@ describe('jest-ratchet', () => {
       ...threshold,
       rootDir: './example',
     }, {
-      roundPct: true,
+      floorPct: true,
     });
     jestRatchet.onRunComplete();
 

@@ -40,7 +40,7 @@ export interface RatchetOptions {
   timeout?: number;
 
   /** Round percentage thresholds down to the nearest percentage. */
-  roundPct?: boolean;
+  floorPct?: boolean;
 }
 
 export interface Config {
