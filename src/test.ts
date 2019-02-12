@@ -51,6 +51,7 @@ describe('jest-ratchet', () => {
   });
 
   it('will handle errors from onRunComplete', () => {
+    // tslint:disable-next-line
     console.error = jest.fn();
 
     const jestRatchet = new JestRatchet(mockConfig);
