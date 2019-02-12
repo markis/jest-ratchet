@@ -1,14 +1,16 @@
 jest.mock('fs');
 
-import _fs from 'fs';
+import * as _fs from 'fs';
 import { resolve } from 'path';
 import JestRatchet from './index';
 import { noop } from './noop';
 
-const fs = _fs as typeof _fs & {
+type extFs = typeof _fs & {
   __addMockFile: (name: RegExp, value: string) => void;
   __resetMockFiles: () => void;
 };
+
+const fs: extFs = _fs as any;
 
 const mockConfig = {
   collectCoverage: true,
@@ -51,6 +53,7 @@ describe('jest-ratchet', () => {
   });
 
   it('will handle errors from onRunComplete', () => {
+    // tslint:disable-next-line
     console.error = jest.fn();
 
     const jestRatchet = new JestRatchet(mockConfig);

@@ -7,18 +7,21 @@ node_js:
   - "8"
   - "9"
 
-cache:
-  directories:
-    - node_modules
+env:
+  - CXX=g++-4.8
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
 
 before_install:
-  - "npm config set spin false"
-  - "npm --version"
+  - npm install -g yarn --cache-min 999999999
+  - npm install codacy-coverage coveralls -g
 
 install:
-  - npm install
-  - npm install if-ver -g
-  - npm install codacy-coverage coveralls -g
+  - yarn
 
 script:
   - npm test

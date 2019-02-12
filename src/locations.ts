@@ -1,8 +1,10 @@
 import { isAbsolute, resolve } from 'path';
-import parser from 'yargs-parser';
+import _parser = require('yargs-parser');
+
 import { Config } from './interfaces';
 
 type Argv = typeof process.argv;
+const parser = _parser as typeof _parser.default;
 
 export function findJestConfigPath(cwd: string, argv: Argv) {
   let configLocation = 'package.json';
