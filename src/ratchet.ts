@@ -46,7 +46,7 @@ function ratchetSingleNumberCoverage(
       ? Math.round(category.pct) - options.ratchetPercentagePadding
       : category.pct;
     if (num > 0 && num <= ratchetPct) {
-      return ratchetPct;
+      return options.floorPct ? Math.floor(ratchetPct) : ratchetPct;
     } else if (num < 0 && num >= -category.covered) {
       return -category.covered;
     }

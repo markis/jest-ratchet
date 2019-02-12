@@ -38,6 +38,9 @@ export interface RatchetOptions {
 
   /** After set period timeout waiting for changes. Default: wait forever */
   timeout?: number;
+
+  /** Round percentage thresholds down to the nearest percentage. */
+  floorPct?: boolean;
 }
 
 export interface Config {
