@@ -3,7 +3,7 @@ import _inplace = require('json-in-place');
 
 import { JestCoverage } from './interfaces';
 
-const inplace = _inplace as any;
+const inplace = _inplace as typeof _inplace.default;
 
 export function updateFile(fileName: string, result: JestCoverage) {
   const jestConfigRaw = readFileSync(fileName, 'utf-8');
