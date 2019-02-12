@@ -13,9 +13,11 @@ export function ratchetCoverage(
   options: RatchetOptions,
 ): JestCoverage {
   const result: any = {};
-  for (const key of Object.keys(threshold)) {
-    const summaryKey = key === 'global' ? 'total' : key;
-    result[key] = ratchetSingleCoverage(threshold[key], summary[summaryKey], options);
+  if (threshold) {
+    for (const key of Object.keys(threshold)) {
+      const summaryKey = key === 'global' ? 'total' : key;
+      result[key] = ratchetSingleCoverage(threshold[key], summary[summaryKey], options);
+    }
   }
   return result;
 }
