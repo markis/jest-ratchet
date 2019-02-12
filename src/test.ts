@@ -114,6 +114,55 @@ describe('jest-ratchet', () => {
         }));
   });
 
+  it('will round down percentages', () => {
+    const threshold = {
+      coverageThreshold: {
+        global: {
+          branches: 50,
+          functions: 50,
+          lines: 50,
+          statements: 50,
+        },
+      },
+    };
+    fs.__addMockFile(
+      /\/coverage-summary\.json$/,
+      JSON.stringify({
+        total: {
+          branches: {pct: 98.7},
+          functions: {pct: 51.3},
+          lines: {pct: 70.6},
+          statements: {pct: 75.8},
+        },
+      }),
+    );
+    fs.__addMockFile(
+      /\/package\.json$/,
+      JSON.stringify({ ...threshold }),
+    );
+
+    const jestRatchet = new JestRatchet({
+      ...mockConfig,
+      ...threshold,
+      rootDir: './example',
+    }, {
+      roundPct: true,
+    });
+    jestRatchet.onRunComplete();
+
+    const writeFileSync = fs.writeFileSync as jest.Mock;
+    expect(writeFileSync).toHaveBeenCalledWith(expect.anything(), JSON.stringify({
+      coverageThreshold: {
+        global: {
+          branches: 98,
+          functions: 51,
+          lines: 70,
+          statements: 75,
+        },
+      },
+    }), expect.anything());
+  });
+
   it('will pad the ratchet percentages', () => {
     const PADDING = 2;
     const threshold = {
