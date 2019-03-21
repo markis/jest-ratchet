@@ -1,5 +1,5 @@
 import { isAbsolute, resolve } from 'path';
-import _parser = require('yargs-parser');
+import * as _parser from 'yargs-parser';
 
 import { Config } from './interfaces';
 
