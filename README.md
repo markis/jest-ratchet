@@ -8,28 +8,55 @@
 
 Ratchet up code coverage - keep test coverage going only one direction -- up
 
-Jest-Ratchet is a coverage watcher for Jest.  Everytime a new level of coverage is reached Jest-Ratchet will automatically update the coverageThreshold.
+Jest-Ratchet is a coverage watcher for Jest. Everytime a new level of coverage is reached Jest-Ratchet will automatically update the coverageThreshold.
 
 ### Installation
 
 npm
-``` bash
+
+```bash
 npm install jest-ratchet --dev
 ```
 
 yarn
-``` bash
+
+```bash
 yarn add jest-ratchet --dev
 ```
 
 ### Jest Settings
 
-Add `jest-ratchet` to the `reporters` section.  And also ensure that `collectCoverage` is enabled and `json-summary` is added to the `coverageReporters`.
+Add `jest-ratchet` to the `reporters` section. And also ensure that `collectCoverage` is enabled and `json-summary` is added to the `coverageReporters`.
 
 ```json
 {
   "collectCoverage": true,
-  "coverageReporters": [ "json-summary" ],
-  "reporters": [ "jest-ratchet" ]
+  "coverageReporters": ["json", "lcov", "text", "clover", "json-summary"],
+  "reporters": ["default", "jest-ratchet"]
+}
+```
+
+### Optional Settings
+
+By default, Jest-Ratchet is aggressive with updating coverage thresholds. Every time your coverage ticks up by 0.01%, the coverageThreshold is updated. There are a couple of options dampen this behavior.
+
+- ratchetPercentagePadding (number): keeps the threshold below the measured coverage, allowing wiggle room
+- floorPct (boolean): round down to the nearest integer
+
+There's also a _timeout (number)_ option, the number of milliseconds to wait for changes. The default is to wait forever.
+
+Here's how to pass configuration to Jest-Ratchet, per the [Jest documentation](https://jestjs.io/docs/en/configuration.html#reporters-array-modulename-modulename-options)
+
+```json
+{
+  "collectCoverage": true,
+  "coverageReporters": ["json", "lcov", "text", "clover", "json-summary"],
+  "reporters": [
+    "default",
+    [
+      "jest-ratchet",
+      { "ratchetPercentagePadding": 2, "floorPct": true, "timeout": 5000 }
+    ]
+  ]
 }
 ```
