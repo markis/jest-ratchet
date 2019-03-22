@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync } from 'fs';
-import _inplace = require('json-in-place');
+import * as _inplace from 'json-in-place';
 
 import { JestCoverage } from './interfaces';
 
