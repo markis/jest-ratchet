@@ -31,7 +31,7 @@ Add `jest-ratchet` to the `reporters` section. And also ensure that `collectCove
 ```json
 {
   "collectCoverage": true,
-  "coverageReporters": ["json", "lcov", "text", "clover", "json-summary"],
+  "coverageReporters": ["json-summary"],
   "reporters": ["default", "jest-ratchet"]
 }
 ```
@@ -50,7 +50,7 @@ Here's how to pass configuration to Jest-Ratchet, per the [Jest documentation](h
 ```json
 {
   "collectCoverage": true,
-  "coverageReporters": ["json", "lcov", "text", "clover", "json-summary"],
+  "coverageReporters": ["json-summary"],
   "reporters": [
     "default",
     [
