@@ -58,8 +58,8 @@
     "verbose": true
   },
   "scripts": {
-    "build": "rollup -c",
-    "prepublishOnly": "tslint src/*.ts && jest && rollup -c",
+    "build": "rollup -c rollup.config.ts",
+    "prepublishOnly": "tslint src/*.ts && jest && rollup -c rollup.config.ts",
     "jest": "jest",
     "test": "tslint src/*.ts && tsc --noemit && jest --no-cache"
   },
