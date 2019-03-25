@@ -5,7 +5,7 @@ import { JestCoverage } from './interfaces';
 
 const inplace = _inplace as typeof _inplace.default;
 
-export function updateFile(fileName: string, result: JestCoverage) {
+export const updateFile = (fileName: string, result: JestCoverage) => {
   const jestConfigRaw = readFileSync(fileName, 'utf-8');
   const jestConfig = JSON.parse(jestConfigRaw);
 
@@ -13,13 +13,13 @@ export function updateFile(fileName: string, result: JestCoverage) {
   const newFile = setCoverage(jestConfigRaw, result, prefix);
 
   writeFileSync(fileName, newFile, 'utf-8');
-}
+};
 
-export function setCoverage(
+export const setCoverage = (
   source: string,
   result: JestCoverage,
   prefix: string,
-): string {
+): string => {
   prefix += 'coverageThreshold.';
   const newSource = inplace(source);
   for (const key of Object.keys(result)) {
@@ -37,4 +37,4 @@ export function setCoverage(
     }
   }
   return newSource.toString();
-}
+};

@@ -30,7 +30,7 @@ export default class JestRatchet {
   }
 }
 
-function onRunComplete(globalConfig: Config, options: RatchetOptions) {
+const onRunComplete = (globalConfig: Config, options: RatchetOptions) => {
   try {
     const coverageDirectory = findCoveragePath(globalConfig);
     const coverageSummaryPath = findCoverageSummaryPath(coverageDirectory);
@@ -64,4 +64,4 @@ function onRunComplete(globalConfig: Config, options: RatchetOptions) {
     // tslint:disable-next-line
     console.error(e);
   }
-}
+};

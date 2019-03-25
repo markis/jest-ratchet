@@ -2,7 +2,7 @@ import { Config } from './interfaces';
 
 export const NAME = 'jest-ratchet';
 
-export function getLastError(config: Config) {
+export const getLastError = (config: Config) => {
   const errors: string[] = [];
   const { collectCoverage, coverageReporters} = config;
   if ((coverageReporters || []).indexOf('json-summary') === -1) {
@@ -19,4 +19,4 @@ export function getLastError(config: Config) {
   if (errors.length > 0) {
     throw new Error(errors.join('\n'));
   }
-}
+};
