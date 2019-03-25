@@ -42,11 +42,11 @@ function ratchetSingleNumberCoverage(
   options: RatchetOptions,
 ) {
   if (num && category) {
-    const ratchetPct = options.ratchetPercentagePadding
-      ? Math.round(category.pct) - options.ratchetPercentagePadding
+    const tolerance = options.tolerance
+      ? Math.round(category.pct) - options.tolerance
       : category.pct;
-    if (num > 0 && num <= ratchetPct) {
-      return options.floorPct ? Math.floor(ratchetPct) : ratchetPct;
+    if (num > 0 && num <= tolerance) {
+      return options.roundDown ? Math.floor(tolerance) : tolerance;
     } else if (num < 0 && num >= -category.covered) {
       return -category.covered;
     }

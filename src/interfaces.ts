@@ -33,14 +33,14 @@ export interface JestCoverageCategory {
 }
 
 export interface RatchetOptions {
-  /** Pad the ratchet percentage by a specified number. */
-  ratchetPercentagePadding?: number;
+  /** Keeps the threshold below the measured coverage, allowing wiggle room. Default: zero tolerance */
+  tolerance?: number;
 
-  /** After set period timeout waiting for changes. Default: wait forever */
+  /** After set period timeout waiting for changes. Default: wait indefinitely */
   timeout?: number;
 
-  /** Round percentage thresholds down to the nearest percentage. */
-  floorPct?: boolean;
+  /** Round percentage thresholds down to the nearest integer. Default: false */
+  roundDown?: boolean;
 }
 
 export interface Config {
