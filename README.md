@@ -40,10 +40,9 @@ Add `jest-ratchet` to the `reporters` section. And also ensure that `collectCove
 
 By default, Jest-Ratchet is aggressive with updating coverage thresholds. Every time your coverage ticks up by 0.01%, the coverageThreshold is updated. There are a couple of options dampen this behavior.
 
-- ratchetPercentagePadding (number): keeps the threshold below the measured coverage, allowing wiggle room
-- floorPct (boolean): round down to the nearest integer
-
-There's also a _timeout (number)_ option, the number of milliseconds to wait for changes. The default is to wait forever.
+- tolerance (number): keeps the threshold below the measured coverage, allowing wiggle room. default: 0 tolerance
+- roundDown (boolean): round down to the nearest integer. default: false
+- timeout (number): the number of milliseconds to wait for to the Jest coverage json summary. default: wait indefinitely
 
 Here's how to pass configuration to Jest-Ratchet, per the [Jest documentation](https://jestjs.io/docs/en/configuration.html#reporters-array-modulename-modulename-options)
 
@@ -55,7 +54,7 @@ Here's how to pass configuration to Jest-Ratchet, per the [Jest documentation](h
     "default",
     [
       "jest-ratchet",
-      { "ratchetPercentagePadding": 2, "floorPct": true, "timeout": 5000 }
+      { "tolerance": 2, "roundDown": true, "timeout": 5000 }
     ]
   ]
 }

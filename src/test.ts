@@ -149,7 +149,7 @@ describe('jest-ratchet', () => {
       ...threshold,
       rootDir: './example',
     }, {
-      floorPct: true,
+      roundDown: true,
     });
     jestRatchet.onRunComplete();
 
@@ -167,7 +167,7 @@ describe('jest-ratchet', () => {
   });
 
   it('will pad the ratchet percentages', () => {
-    const PADDING = 2;
+    const TOLERANCE = 2;
     const threshold = {
       coverageThreshold: {
         global: {
@@ -193,7 +193,7 @@ describe('jest-ratchet', () => {
       ...threshold,
       rootDir: './example',
     }, {
-      ratchetPercentagePadding: PADDING,
+      tolerance: TOLERANCE,
     });
     jestRatchet.onRunComplete();
 
