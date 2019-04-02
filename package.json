@@ -67,7 +67,7 @@
     "@types/jest": "24.0.11",
     "@types/node": "11.11.6",
     "jest": "24.5.0",
-    "rollup": "1.7.3",
+    "rollup": "1.8.0",
     "rollup-plugin-typescript": "1.0.1",
     "ts-jest": "24.0.0",
     "tslib": "1.9.3",
