@@ -6,7 +6,7 @@ import { Config } from './interfaces';
 type Argv = typeof process.argv;
 const parser = _parser as typeof _parser.default;
 
-export function findJestConfigPath(cwd: string, argv: Argv) {
+export const findJestConfigPath = (cwd: string, argv: Argv) => {
   let configLocation = 'package.json';
   const args = parser(argv.slice(2));
   if (args && args.config) {
@@ -17,9 +17,9 @@ export function findJestConfigPath(cwd: string, argv: Argv) {
   }
 
   return configLocation;
-}
+};
 
-export function findCoveragePath(config: Config) {
+export const findCoveragePath = (config: Config) => {
   if (config.coverageDirectory) {
     return config.coverageDirectory;
   }
@@ -27,8 +27,8 @@ export function findCoveragePath(config: Config) {
     return resolve(config.rootDir, 'coverage');
   }
   return resolve(process.cwd(), 'coverage');
-}
+};
 
-export function findCoverageSummaryPath(coverageDirectory: string) {
+export const findCoverageSummaryPath = (coverageDirectory: string) => {
   return resolve(coverageDirectory, 'coverage-summary.json');
-}
+};

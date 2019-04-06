@@ -7,11 +7,11 @@ import {
   RatchetOptions,
 } from './interfaces';
 
-export function ratchetCoverage(
+export const ratchetCoverage = (
   threshold: JestCoverage,
   summary: IstanbulCoverage,
   options: RatchetOptions,
-): JestCoverage {
+): JestCoverage => {
   const result: any = {};
   if (threshold) {
     for (const key of Object.keys(threshold)) {
@@ -20,13 +20,13 @@ export function ratchetCoverage(
     }
   }
   return result;
-}
+};
 
-function ratchetSingleCoverage(
+const ratchetSingleCoverage = (
   threshold: JestCoverageCategory,
   summary: IstanbulCoverageCategories,
   options: RatchetOptions,
-) {
+) => {
   const { branches, functions, lines, statements } = threshold;
   return {
     branches: ratchetSingleNumberCoverage(branches, summary.branches, options),
@@ -34,21 +34,21 @@ function ratchetSingleCoverage(
     lines: ratchetSingleNumberCoverage(lines, summary.lines, options),
     statements: ratchetSingleNumberCoverage(statements, summary.statements, options),
   };
-}
+};
 
-function ratchetSingleNumberCoverage(
+const ratchetSingleNumberCoverage = (
   num: number | undefined,
   category: IstanbulCoverageCategory,
   options: RatchetOptions,
-) {
+) => {
   if (num && category) {
-    const ratchetPct = options.ratchetPercentagePadding
-      ? Math.round(category.pct) - options.ratchetPercentagePadding
+    const tolerance = options.tolerance
+      ? Math.round(category.pct) - options.tolerance
       : category.pct;
-    if (num > 0 && num <= ratchetPct) {
-      return options.floorPct ? Math.floor(ratchetPct) : ratchetPct;
+    if (num > 0 && num <= tolerance) {
+      return options.roundDown ? Math.floor(tolerance) : tolerance;
     } else if (num < 0 && num >= -category.covered) {
       return -category.covered;
     }
   }
-}
+};
