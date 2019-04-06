@@ -34,7 +34,7 @@ export default class JestRatchet {
   }
 }
 
-const onRunComplete = async (
+const onRunComplete = (
   globalConfig: Config,
   options: RatchetOptions,
 ): Promise<void> => new Promise(

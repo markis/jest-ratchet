@@ -14,7 +14,7 @@ export const getLastError = (config: Config) => {
   }
 };
 
-export const tryOrReject = async (reject: (reason?: any) => void, cb: () => void) => {
+export const tryOrReject = (reject: (reason?: any) => void, cb: () => void) => {
   try {
     cb();
   } catch (e) {
