@@ -1,8 +1,14 @@
 import { readFileSync, writeFileSync } from 'fs';
 import * as _inplace from 'json-in-place';
 
-import { JestCoverage } from './interfaces';
+import { JestCoverage, JestCoverageCategory } from './interfaces';
 
+const FIELDS: Array<keyof JestCoverageCategory> = [
+  'branches',
+  'functions',
+  'lines',
+  'statements',
+];
 const inplace = _inplace as typeof _inplace.default;
 
 export const updateFile = (fileName: string, result: JestCoverage) => {
@@ -23,17 +29,11 @@ export const setCoverage = (
   prefix += 'coverageThreshold.';
   const newSource = inplace(source);
   for (const key of Object.keys(result)) {
-    if (result[key].branches) {
-      newSource.set(prefix + key + '.branches', result[key].branches);
-    }
-    if (result[key].functions) {
-      newSource.set(prefix + key + '.functions', result[key].functions);
-    }
-    if (result[key].lines) {
-      newSource.set(prefix + key + '.lines', result[key].lines);
-    }
-    if (result[key].statements) {
-      newSource.set(prefix + key + '.statements', result[key].statements);
+    for (const field of FIELDS) {
+      const value = result[key][field];
+      if (value) {
+        newSource.set(prefix + key + '.' + field, value);
+      }
     }
   }
   return newSource.toString();
