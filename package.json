@@ -65,14 +65,14 @@
   },
   "devDependencies": {
     "@types/jest": "24.0.11",
-    "@types/node": "11.11.6",
-    "jest": "24.5.0",
-    "rollup": "1.7.3",
+    "@types/node": "11.13.0",
+    "jest": "24.7.1",
+    "rollup": "1.9.0",
     "rollup-plugin-typescript": "1.0.1",
-    "ts-jest": "24.0.0",
+    "ts-jest": "24.0.2",
     "tslib": "1.9.3",
-    "tslint": "5.14.0",
-    "typescript": "3.3.4000"
+    "tslint": "5.15.0",
+    "typescript": "3.4.2"
   },
   "dependencies": {
     "json-in-place": "1.0.1",
