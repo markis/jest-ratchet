@@ -1,4 +1,4 @@
-import { closeSync, existsSync, mkdirSync, openSync, readFileSync, watch } from 'fs';
+import { closeSync, existsSync, FSWatcher, mkdirSync, openSync, readFileSync, watch } from 'fs';
 
 import { getLastError, TimeoutError, tryOrReject } from './errors';
 import {
@@ -34,11 +34,36 @@ export default class JestRatchet {
   }
 }
 
+const onSummaryReportComplete = (
+  reject: () => void,
+  resolve: () => void,
+  watcher: FSWatcher,
+  timeoutTimer: NodeJS.Timeout | undefined,
+  coverageSummaryPath: string,
+  jestConfigPath: string,
+  globalConfig: Config,
+  options: RatchetOptions,
+) => () =>
+  tryOrReject(reject, () => {
+    watcher.close();
+    if (timeoutTimer) {
+      clearTimeout(timeoutTimer);
+    }
+
+    const coverageRaw = readFileSync(coverageSummaryPath, 'utf-8');
+    const summary: IstanbulCoverage = JSON.parse(coverageRaw);
+    const threshold = globalConfig.coverageThreshold!;
+    const ratchetResult = ratchetCoverage(threshold, summary, options);
+
+    updateFile(jestConfigPath, ratchetResult);
+    resolve();
+  });
+
 const onRunComplete = (
   globalConfig: Config,
   options: RatchetOptions,
 ): Promise<void> => new Promise(
-  (resolve, reject) => {
+  (resolve, reject) =>
     tryOrReject(reject, () => {
       const coverageDirectory = findCoveragePath(globalConfig);
       const coverageSummaryPath = findCoverageSummaryPath(coverageDirectory);
@@ -54,25 +79,19 @@ const onRunComplete = (
       const watcher = watch(coverageDirectory);
       const timeout = options.timeout;
 
-      const timeoutTimer = timeout && setTimeout(() => {
+      const timeoutTimer = timeout ? setTimeout(() => {
         watcher.close();
         reject(new TimeoutError(coverageDirectory, timeout));
-      }, timeout);
+      }, timeout) : undefined;
 
-      watcher.once('change', () => tryOrReject(reject, () => {
-        watcher.close();
-        if (timeoutTimer) {
-          clearTimeout(timeoutTimer);
-        }
-
-        const coverageRaw = readFileSync(coverageSummaryPath, 'utf-8');
-        const summary: IstanbulCoverage = JSON.parse(coverageRaw);
-        const threshold = globalConfig.coverageThreshold!;
-        const ratchetResult = ratchetCoverage(threshold, summary, options);
-
-        updateFile(jestConfigPath, ratchetResult);
-        resolve();
-      }));
-    });
-  },
-);
+      watcher.once('change', onSummaryReportComplete(
+        reject,
+        resolve,
+        watcher,
+        timeoutTimer,
+        coverageSummaryPath,
+        jestConfigPath,
+        globalConfig,
+        options,
+      ));
+  }));

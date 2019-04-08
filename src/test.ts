@@ -267,17 +267,6 @@ describe('jest-ratchet', () => {
       expect.anything(),
     );
   };
-});
-
-describe('jest-ratchet non-core', () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
-    fs.__resetMockFiles();
-    process.cwd = jest.fn().mockReturnValue(resolve('./example'));
-    process.argv = originalArgv;
-    process.env = { ...originalEnv };
-    delete process.env.DISABLE_JEST_RATCHET;
-  });
 
   it('will initialize without error', () => {
     const config = {
@@ -305,7 +294,6 @@ describe('jest-ratchet non-core', () => {
     const config = {
       ...mockConfig,
       collectCoverage: false,
-      coverageReporters: undefined,
     };
     const jestRatchet = new JestRatchet(config);
 
