@@ -68,6 +68,37 @@ describe('jest-ratchet', () => {
     });
   });
 
+  it('will ratchet coverage set to zero', () => {
+    const threshold = {
+      coverageThreshold: {
+        global: {
+          branches: 0,
+        },
+      },
+    };
+    setCoverageSummaryFile(fs, {
+      total: {
+        branches: {pct: 75},
+      },
+    });
+    setPackageJson(fs, { ...threshold });
+
+    const jestRatchet = new JestRatchet({
+      ...mockConfig,
+      ...threshold,
+      rootDir: './example',
+    });
+    jestRatchet.onRunComplete();
+
+    expectCoverageThreshold({
+      coverageThreshold: {
+        global: {
+          branches: 75,
+        },
+      },
+    });
+  });
+
   it('will ratchet non-global percentages', () => {
     const threshold = {
       coverageThreshold: {

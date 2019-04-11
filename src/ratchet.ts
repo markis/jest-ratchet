@@ -41,11 +41,11 @@ const ratchetSingleNumberCoverage = (
   category: IstanbulCoverageCategory,
   options: RatchetOptions,
 ) => {
-  if (num && category) {
+  if (category && typeof num === 'number') {
     const tolerance = options.tolerance
       ? Math.round(category.pct) - options.tolerance
       : category.pct;
-    if (num > 0 && num <= tolerance) {
+    if (num >= 0 && num <= tolerance) {
       return options.roundDown ? Math.floor(tolerance) : tolerance;
     } else if (num < 0 && num >= -category.covered) {
       return -category.covered;
