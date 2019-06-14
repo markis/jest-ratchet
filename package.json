@@ -64,18 +64,18 @@
     "test": "tslint src/*.ts && tsc --noemit && jest --no-cache"
   },
   "devDependencies": {
-    "@types/jest": "24.0.11",
-    "@types/node": "11.13.0",
-    "jest": "24.7.1",
-    "rollup": "1.9.0",
+    "@types/jest": "24.0.14",
+    "@types/node": "12.0.8",
+    "jest": "24.8.0",
+    "rollup": "1.15.4",
     "rollup-plugin-typescript": "1.0.1",
     "ts-jest": "24.0.2",
-    "tslib": "1.9.3",
-    "tslint": "5.15.0",
-    "typescript": "3.4.2"
+    "tslib": "1.10.0",
+    "tslint": "5.17.0",
+    "typescript": "3.5.2"
   },
   "dependencies": {
     "json-in-place": "1.0.1",
-    "yargs-parser": "13.0.0"
+    "yargs-parser": "13.1.1"
   }
 }
