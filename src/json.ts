@@ -3,7 +3,7 @@ import * as _inplace from 'json-in-place';
 
 import { JestCoverage, JestCoverageCategory } from './interfaces';
 
-const FIELDS: Array<keyof JestCoverageCategory> = [
+const FIELDS: (keyof JestCoverageCategory)[] = [
   'branches',
   'functions',
   'lines',
