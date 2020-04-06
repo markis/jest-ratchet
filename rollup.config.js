@@ -1,4 +1,4 @@
-import typescript from 'rollup-plugin-typescript';
+import sucrase from '@rollup/plugin-sucrase';
 
 export default {
   external: [
@@ -13,8 +13,9 @@ export default {
     format: 'cjs',
   }],
   plugins: [
-    typescript({
-      typescript: require('typescript'),
-    }),
+    sucrase({
+      exclude: ['node_modules/**'],
+      transforms: ['typescript']
+    })
   ],
 };
