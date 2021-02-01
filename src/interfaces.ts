@@ -20,7 +20,7 @@ export interface IstanbulCoverageCategory {
 
 export interface JestCoverage {
   global: JestCoverageCategory;
-  [fileName: string]: JestCoverageCategory;
+  [fileOrFolderPath: string]: JestCoverageCategory;
 }
 
 export interface JestCoverageCategory {
