@@ -7,7 +7,7 @@ import {
   RatchetOptions,
 } from './interfaces';
 
-import { roundToTwo } from "./utils";
+import { roundToTwo } from './utils';
 
 export const ratchetCoverage = (
   threshold: JestCoverage,
@@ -96,7 +96,7 @@ const ratchetFolderCoverage = (
       value.pct = roundToTwo((value.covered / value.total) * 100);
     }
   });
-  
+
   const { branches, functions, lines, statements } = threshold;
   return {
     branches: ratchetSingleNumberCoverage(branches, calculatedSummary.branches, options),
