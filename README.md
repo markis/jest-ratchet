@@ -1,14 +1,8 @@
-# Jest-Ratchet
-
-[![Maintainability](https://api.codeclimate.com/v1/badges/dcf0bf468746ec3dc221/maintainability)](https://codeclimate.com/github/markis/jest-ratchet/maintainability)
-[![Build Status](https://travis-ci.org/markis/jest-ratchet.svg?branch=master)](https://travis-ci.org/markis/jest-ratchet)
-[![Coverage Status](https://coveralls.io/repos/github/markis/jest-ratchet/badge.svg?branch=master)](https://coveralls.io/github/markis/jest-ratchet?branch=master)
-[![Known Vulnerabilities](https://snyk.io/test/github/markis/jest-ratchet/badge.svg?targetFile=package.json)](https://snyk.io/test/github/markis/jest-ratchet?targetFile=package.json)
-
+# Jest-Coverage-Update
 
 Ratchet up code coverage - keep test coverage going only one direction -- up
 
-Jest-Ratchet is a coverage watcher for Jest. Everytime a new level of coverage is reached Jest-Ratchet will automatically update the coverageThreshold.
+jest-coverage-update is a coverage watcher for Jest. Everytime a new level of coverage is reached Jest-Ratchet will automatically update the coverageThreshold.
 
 ## What does it do?
 
@@ -155,3 +149,5 @@ I know what happens [when you assume](http://www.urbandictionary.com/define.php?
   'src/imp' // incorrect usage (does not start with './')
 
 Should this tool support things like piping the coverage data in as an argument? Of course it should. If you want to build that and send a PR I will be all smiles 😀✨. If not then you probably see me do it _eventually_.
+
+Special thanks to [markis](https://github.com/markis/jest-ratchet), on which this package is built on. 
