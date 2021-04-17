@@ -1,6 +1,6 @@
 {
-  "name": "jest-ratchet",
-  "version": "2.0.3",
+  "name": "jest-coverage-updater",
+  "version": "1.0.0",
   "description": "Ratchet up code coverage - keep test coverage going only one direction -- up",
   "keywords": [
     "jest",
@@ -9,21 +9,18 @@
     "test-coverage",
     "jest-ratchet"
   ],
-  "author": {
-    "name": "Markis Taylor",
-    "email": "m@rkis.cc"
-  },
+  "author": "Anirudh Agarwal <anirudh.wish@gmail.com>",
   "main": "index.js",
   "engines": {
     "node": ">=6"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/markis/jest-ratchet.git"
+    "url": "git+https://github.com/anirudhagarwal365/jest-ratchet.git"
   },
   "bugs": {
-    "url": "https://github.com/markis/jest-ratchet/issues",
-    "email": "m@rkis.cc"
+    "url": "https://github.com/anirudhagarwal365/jest-ratchet/issues",
+    "email": "anirudh.wish@gmail.com"
   },
   "license": "MIT",
   "jest": {
@@ -58,7 +55,7 @@
   },
   "scripts": {
     "build": "rollup -c rollup.config.ts",
-    "prepublishOnly": "tslint src/*.ts && jest && rollup -c rollup.config.ts",
+    "prepublishOnly": "tslint src/*.ts && rollup -c rollup.config.ts",
     "jest": "jest",
     "test": "tslint src/*.ts && tsc --noemit && jest --no-cache"
   },
@@ -77,5 +74,9 @@
   "dependencies": {
     "json-in-place": "1.0.1",
     "yargs-parser": "18.1.2"
+  },
+  "homepage": "https://github.com/anirudhagarwal365/jest-ratchet#readme",
+  "directories": {
+    "example": "example"
   }
 }
