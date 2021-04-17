@@ -69,13 +69,13 @@ Jest currently supports checking coverage thresholds at individual folder level 
 npm
 
 ```bash
-npm install jest-ratchet --dev
+npm install jest-coverage-updater --dev
 ```
 
 yarn
 
 ```bash
-yarn add jest-ratchet --dev
+yarn add jest-coverage-updater --dev
 ```
 
 ### Jest Settings
