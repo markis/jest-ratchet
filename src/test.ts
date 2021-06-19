@@ -2,12 +2,7 @@ jest.mock('fs');
 
 import * as _fs from 'fs';
 import { resolve } from 'path';
-import {
-  CollectCoverageError,
-  JsonSummaryError,
-  TimeoutError,
-  tryOrReject,
-} from './errors';
+import { CollectCoverageError, JsonSummaryError, TimeoutError, tryOrReject } from './errors';
 import JestRatchet from './index';
 import { findCoveragePath } from './locations';
 import { noop } from './noop';
@@ -47,7 +42,7 @@ describe('jest-ratchet', () => {
     };
     setCoverageSummaryFile(fs, {
       total: {
-        branches: {pct: 100},
+        branches: { pct: 100 },
       },
     });
     setPackageJson(fs, { ...threshold });
@@ -68,6 +63,433 @@ describe('jest-ratchet', () => {
     });
   });
 
+  it('will not ratchet percentages', () => {
+    const threshold = {
+      coverageThreshold: {
+        global: {
+          branches: 50,
+        },
+      },
+    };
+    setCoverageSummaryFile(fs, {
+      total: {
+        branches: { pct: 49 },
+      },
+    });
+    setPackageJson(fs, { ...threshold });
+
+    const jestRatchet = new JestRatchet({
+      ...mockConfig,
+      ...threshold,
+      rootDir: './example',
+    });
+    jestRatchet.onRunComplete();
+
+    expectCoverageThreshold({
+      coverageThreshold: {
+        global: {
+          branches: 50,
+        },
+      },
+    });
+  });
+
+  it('will ratchet percentages up to max global value', () => {
+    const threshold = {
+      coverageThreshold: {
+        global: {
+          branches: 50,
+        },
+      },
+    };
+    setCoverageSummaryFile(fs, {
+      total: {
+        branches: { pct: 100 },
+      },
+    });
+    setPackageJson(fs, { ...threshold });
+
+    const jestRatchet = new JestRatchet(
+      {
+        ...mockConfig,
+        ...threshold,
+        rootDir: './example',
+      },
+      {
+        maxThresholds: 90,
+      }
+    );
+    jestRatchet.onRunComplete();
+
+    expectCoverageThreshold({
+      coverageThreshold: {
+        global: {
+          branches: 90,
+        },
+      },
+    });
+  });
+
+  it('will not ratchet percentages up past max global value', () => {
+    const threshold = {
+      coverageThreshold: {
+        global: {
+          branches: 25,
+        },
+      },
+    };
+    setCoverageSummaryFile(fs, {
+      total: {
+        branches: { pct: 50 },
+      },
+    });
+    setPackageJson(fs, { ...threshold });
+
+    const jestRatchet = new JestRatchet(
+      {
+        ...mockConfig,
+        ...threshold,
+        rootDir: './example',
+      },
+      {
+        maxThresholds: 75,
+      }
+    );
+    jestRatchet.onRunComplete();
+
+    expectCoverageThreshold({
+      coverageThreshold: {
+        global: {
+          branches: 50,
+        },
+      },
+    });
+  });
+
+  it('will ratchet percentages up to max category value', () => {
+    const threshold = {
+      coverageThreshold: {
+        global: {
+          branches: 50,
+        },
+      },
+    };
+    setCoverageSummaryFile(fs, {
+      total: {
+        branches: { pct: 100 },
+      },
+    });
+    setPackageJson(fs, { ...threshold });
+
+    const jestRatchet = new JestRatchet(
+      {
+        ...mockConfig,
+        ...threshold,
+        rootDir: './example',
+      },
+      {
+        maxThresholds: {
+          branches: 90,
+        },
+      }
+    );
+    jestRatchet.onRunComplete();
+
+    expectCoverageThreshold({
+      coverageThreshold: {
+        global: {
+          branches: 90,
+        },
+      },
+    });
+  });
+
+  it('will not ratchet percentages up past max category value', () => {
+    const threshold = {
+      coverageThreshold: {
+        global: {
+          branches: 25,
+        },
+      },
+    };
+    setCoverageSummaryFile(fs, {
+      total: {
+        branches: { pct: 50 },
+      },
+    });
+    setPackageJson(fs, { ...threshold });
+
+    const jestRatchet = new JestRatchet(
+      {
+        ...mockConfig,
+        ...threshold,
+        rootDir: './example',
+      },
+      {
+        maxThresholds: {
+          branches: 75,
+        },
+      }
+    );
+    jestRatchet.onRunComplete();
+
+    expectCoverageThreshold({
+      coverageThreshold: {
+        global: {
+          branches: 50,
+        },
+      },
+    });
+  });
+
+  it('will ratchet counts', () => {
+    const threshold = {
+      coverageThreshold: {
+        global: {
+          branches: -50,
+        },
+      },
+    };
+    setCoverageSummaryFile(fs, {
+      total: {
+        branches: { total: 100, covered: 50 },
+      },
+    });
+    setPackageJson(fs, { ...threshold });
+
+    const jestRatchet = new JestRatchet({
+      ...mockConfig,
+      ...threshold,
+      rootDir: './example',
+    });
+    jestRatchet.onRunComplete();
+
+    expectCoverageThreshold({
+      coverageThreshold: {
+        global: {
+          branches: -50,
+        },
+      },
+    });
+  });
+
+  it('will not ratchet counts', () => {
+    const threshold = {
+      coverageThreshold: {
+        global: {
+          branches: -50,
+        },
+      },
+    };
+    setCoverageSummaryFile(fs, {
+      total: {
+        branches: { total: 100, covered: 25 },
+      },
+    });
+    setPackageJson(fs, { ...threshold });
+
+    const jestRatchet = new JestRatchet({
+      ...mockConfig,
+      ...threshold,
+      rootDir: './example',
+    });
+    jestRatchet.onRunComplete();
+
+    expectCoverageThreshold({
+      coverageThreshold: {
+        global: {
+          branches: -50,
+        },
+      },
+    });
+  });
+
+  it('will ratchet counts if configured with a positive global value', () => {
+    const threshold = {
+      coverageThreshold: {
+        global: {
+          branches: -50,
+        },
+      },
+    };
+    setCoverageSummaryFile(fs, {
+      total: {
+        branches: { total: 100, covered: 75 },
+      },
+    });
+    setPackageJson(fs, { ...threshold });
+
+    const jestRatchet = new JestRatchet(
+      {
+        ...mockConfig,
+        ...threshold,
+        rootDir: './example',
+      },
+      {
+        maxThresholds: {
+          branches: 34,
+        },
+      }
+    );
+    jestRatchet.onRunComplete();
+
+    expectCoverageThreshold({
+      coverageThreshold: {
+        global: {
+          branches: -25,
+        },
+      },
+    });
+  });
+
+  it('will ratchet counts up to max global value', () => {
+    const threshold = {
+      coverageThreshold: {
+        global: {
+          branches: -50,
+        },
+      },
+    };
+    setCoverageSummaryFile(fs, {
+      total: {
+        branches: { total: 100, covered: 50 },
+      },
+    });
+    setPackageJson(fs, { ...threshold });
+
+    const jestRatchet = new JestRatchet(
+      {
+        ...mockConfig,
+        ...threshold,
+        rootDir: './example',
+      },
+      {
+        maxThresholds: -60,
+      }
+    );
+    jestRatchet.onRunComplete();
+
+    expectCoverageThreshold({
+      coverageThreshold: {
+        global: {
+          branches: -60,
+        },
+      },
+    });
+  });
+
+  it('will not ratchet counts up past max global value', () => {
+    const threshold = {
+      coverageThreshold: {
+        global: {
+          branches: -50,
+        },
+      },
+    };
+    setCoverageSummaryFile(fs, {
+      total: {
+        branches: { total: 100, covered: 25 },
+      },
+    });
+    setPackageJson(fs, { ...threshold });
+
+    const jestRatchet = new JestRatchet(
+      {
+        ...mockConfig,
+        ...threshold,
+        rootDir: './example',
+      },
+      {
+        maxThresholds: -60,
+      }
+    );
+    jestRatchet.onRunComplete();
+
+    expectCoverageThreshold({
+      coverageThreshold: {
+        global: {
+          branches: -50,
+        },
+      },
+    });
+  });
+
+  it('will ratchet percentages up to max category value', () => {
+    const threshold = {
+      coverageThreshold: {
+        global: {
+          branches: -50,
+        },
+      },
+    };
+    setCoverageSummaryFile(fs, {
+      total: {
+        branches: { total: 100, covered: 50 },
+      },
+    });
+    setPackageJson(fs, { ...threshold });
+
+    const jestRatchet = new JestRatchet(
+      {
+        ...mockConfig,
+        ...threshold,
+        rootDir: './example',
+      },
+      {
+        maxThresholds: {
+          branches: -60,
+        },
+      }
+    );
+    jestRatchet.onRunComplete();
+
+    expectCoverageThreshold({
+      coverageThreshold: {
+        global: {
+          branches: -60,
+        },
+      },
+    });
+  });
+
+  it('will not ratchet percentages up past max category value', () => {
+    const threshold = {
+      coverageThreshold: {
+        global: {
+          branches: -50,
+        },
+      },
+    };
+    setCoverageSummaryFile(fs, {
+      total: {
+        branches: { total: 100, covered: 25 },
+      },
+    });
+    setPackageJson(fs, { ...threshold });
+
+    const jestRatchet = new JestRatchet(
+      {
+        ...mockConfig,
+        ...threshold,
+        rootDir: './example',
+      },
+      {
+        maxThresholds: {
+          branches: -60,
+        },
+      }
+    );
+    jestRatchet.onRunComplete();
+
+    expectCoverageThreshold({
+      coverageThreshold: {
+        global: {
+          branches: -50,
+        },
+      },
+    });
+  });
+
   it('will ratchet coverage set to zero', () => {
     const threshold = {
       coverageThreshold: {
@@ -78,7 +500,7 @@ describe('jest-ratchet', () => {
     };
     setCoverageSummaryFile(fs, {
       total: {
-        branches: {pct: 75},
+        branches: { pct: 75 },
       },
     });
     setPackageJson(fs, { ...threshold });
@@ -118,16 +540,16 @@ describe('jest-ratchet', () => {
     };
     setCoverageSummaryFile(fs, {
       specific: {
-        branches: {pct: 100},
-        functions: {pct: 100},
-        lines: {pct: 100},
-        statements: {pct: 100},
+        branches: { pct: 100 },
+        functions: { pct: 100 },
+        lines: { pct: 100 },
+        statements: { pct: 100 },
       },
       total: {
-        branches: {pct: 100},
-        functions: {pct: 100},
-        lines: {pct: 100},
-        statements: {pct: 100},
+        branches: { pct: 100 },
+        functions: { pct: 100 },
+        lines: { pct: 100 },
+        statements: { pct: 100 },
       },
     });
     setPackageJson(fs, { ...threshold });
@@ -170,21 +592,24 @@ describe('jest-ratchet', () => {
     };
     setCoverageSummaryFile(fs, {
       total: {
-        branches: {pct: 98.7},
-        functions: {pct: 51.3},
-        lines: {pct: 70.6},
-        statements: {pct: 75.8},
+        branches: { pct: 98.7 },
+        functions: { pct: 51.3 },
+        lines: { pct: 70.6 },
+        statements: { pct: 75.8 },
       },
     });
     setPackageJson(fs, { ...threshold });
 
-    const jestRatchet = new JestRatchet({
-      ...mockConfig,
-      ...threshold,
-      rootDir: './example',
-    }, {
-      roundDown: true,
-    });
+    const jestRatchet = new JestRatchet(
+      {
+        ...mockConfig,
+        ...threshold,
+        rootDir: './example',
+      },
+      {
+        roundDown: true,
+      }
+    );
     jestRatchet.onRunComplete();
 
     expectCoverageThreshold({
@@ -210,17 +635,20 @@ describe('jest-ratchet', () => {
     };
     setCoverageSummaryFile(fs, {
       total: {
-        branches: {pct: 100},
+        branches: { pct: 100 },
       },
     });
     setPackageJson(fs, { ...threshold });
 
-    const jestRatchet = new JestRatchet({
-      ...mockConfig,
-      ...threshold,
-    }, {
-      tolerance: TOLERANCE,
-    });
+    const jestRatchet = new JestRatchet(
+      {
+        ...mockConfig,
+        ...threshold,
+      },
+      {
+        tolerance: TOLERANCE,
+      }
+    );
     jestRatchet.onRunComplete();
 
     expectCoverageThreshold({
@@ -246,10 +674,10 @@ describe('jest-ratchet', () => {
     };
     setCoverageSummaryFile(fs, {
       total: {
-        branches: {covered: 100},
-        functions: {covered: 100},
-        lines: {covered: 100},
-        statements: {covered: 100},
+        branches: { total: 125, covered: 100 },
+        functions: { total: 125, covered: 100 },
+        lines: { total: 125, covered: 100 },
+        statements: { total: 125, covered: 100 },
       },
     });
     setJestConfig(fs, { ...threshold });
@@ -260,43 +688,30 @@ describe('jest-ratchet', () => {
     expectCoverageThreshold({
       coverageThreshold: {
         global: {
-          branches: -100,
-          functions: -100,
-          lines: -100,
-          statements: -100,
+          branches: -25,
+          functions: -25,
+          lines: -25,
+          statements: -25,
         },
       },
     });
   });
 
   const setCoverageSummaryFile = (mockfs: extFs, json: any) => {
-    mockfs.__addMockFile(
-      /\/coverage-summary\.json$/,
-      JSON.stringify(json),
-    );
+    mockfs.__addMockFile(/\/coverage-summary\.json$/, JSON.stringify(json));
   };
 
   const setPackageJson = (mockfs: extFs, json: any) => {
-    mockfs.__addMockFile(
-      /\/package\.json$/,
-      JSON.stringify(json),
-    );
+    mockfs.__addMockFile(/\/package\.json$/, JSON.stringify(json));
   };
 
   const setJestConfig = (mockfs: extFs, json: any) => {
-    mockfs.__addMockFile(
-      /\/jestconfig\.json$/,
-      JSON.stringify(json),
-    );
+    mockfs.__addMockFile(/\/jestconfig\.json$/, JSON.stringify(json));
   };
 
   const expectCoverageThreshold = (threshold: any) => {
     const writeFileSync = fs.writeFileSync as jest.Mock;
-    expect(writeFileSync).toHaveBeenCalledWith(
-      expect.anything(),
-      JSON.stringify({...threshold}),
-      expect.anything(),
-    );
+    expect(writeFileSync).toHaveBeenCalledWith(expect.anything(), JSON.stringify({ ...threshold }), expect.anything());
   };
 
   it('will initialize without error', () => {
@@ -340,11 +755,12 @@ describe('jest-ratchet', () => {
   });
 
   it('will throw a timeout error', async () => {
-    fs.watch = () => ({
-      close: jest.fn(),
-      on: jest.fn(),
-      once: jest.fn(),
-    }) as any;
+    fs.watch = () =>
+      ({
+        close: jest.fn(),
+        on: jest.fn(),
+        once: jest.fn(),
+      } as any);
 
     const jestRatchet = new JestRatchet({ ...mockConfig }, { timeout: 5 });
     await expect(jestRatchet.runResult).rejects.toBeInstanceOf(TimeoutError);
@@ -353,10 +769,13 @@ describe('jest-ratchet', () => {
 
   it('will cleanup timeout', () => {
     jest.useFakeTimers();
-    fs.watch = () => ({
-      close: jest.fn(),
-      once: jest.fn().mockImplementation((_: string, cb: () => void) => { cb(); }),
-    }) as any;
+    fs.watch = () =>
+      ({
+        close: jest.fn(),
+        once: jest.fn().mockImplementation((_: string, cb: () => void) => {
+          cb();
+        }),
+      } as any);
 
     const jestRatchet = new JestRatchet({ ...mockConfig }, { timeout: 100 });
     jestRatchet.onRunComplete();
@@ -368,17 +787,19 @@ describe('jest-ratchet', () => {
 describe('edges', () => {
   it('tryOrReject will reject', () => {
     const reject = jest.fn();
-    tryOrReject(reject, () => { throw new Error(); });
+    tryOrReject(reject, () => {
+      throw new Error();
+    });
     expect(reject).toBeCalled();
   });
 
   it('findCoveragePath will return coverageDirectory', () => {
     const coverageDirectory = 'COVERAGE_DIRECTORY';
-    expect(findCoveragePath({coverageDirectory})).toBe(coverageDirectory);
+    expect(findCoveragePath({ coverageDirectory })).toBe(coverageDirectory);
   });
 
   it('findCoveragePath will return rootDir', () => {
     const rootDir = 'COVERAGE_DIRECTORY';
-    expect(findCoveragePath({rootDir})).toBe(resolve(rootDir, 'coverage'));
+    expect(findCoveragePath({ rootDir })).toBe(resolve(rootDir, 'coverage'));
   });
 });

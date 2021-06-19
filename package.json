@@ -31,7 +31,8 @@
     "coverageReporters": [
       "json-summary",
       "lcovonly",
-      "html"
+      "html",
+      "text-summary"
     ],
     "coverageThreshold": {
       "global": {

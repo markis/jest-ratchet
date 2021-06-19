@@ -1,10 +1,10 @@
-
 export interface IstanbulCoverage {
   total: IstanbulCoverageCategories;
   [fileName: string]: IstanbulCoverageCategories;
 }
 
 export interface IstanbulCoverageCategories {
+  [key: string]: IstanbulCoverageCategory;
   lines: IstanbulCoverageCategory;
   statements: IstanbulCoverageCategory;
   functions: IstanbulCoverageCategory;
@@ -12,7 +12,7 @@ export interface IstanbulCoverageCategories {
 }
 
 export interface IstanbulCoverageCategory {
-  total?: number;
+  total: number;
   covered: number;
   skipped?: number;
   pct: number;
@@ -24,6 +24,7 @@ export interface JestCoverage {
 }
 
 export interface JestCoverageCategory {
+  [key: string]: number | undefined;
   branches?: number;
   functions?: number;
   lines?: number;
@@ -39,6 +40,9 @@ export interface RatchetOptions {
 
   /** Round percentage thresholds down to the nearest integer. Default: false */
   roundDown?: boolean;
+
+  /** Maximum values to ratchet thresholds up to. Default: unbound */
+  maxThresholds?: JestCoverageCategory | number;
 }
 
 export interface Config {
