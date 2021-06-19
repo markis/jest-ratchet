@@ -1,7 +1,6 @@
 import {
   IstanbulCoverage,
   IstanbulCoverageCategories,
-  IstanbulCoverageCategory,
   JestCoverage,
   JestCoverageCategory,
   RatchetOptions,
@@ -10,7 +9,7 @@ import {
 export const ratchetCoverage = (
   threshold: JestCoverage,
   summary: IstanbulCoverage,
-  options: RatchetOptions,
+  options: RatchetOptions
 ): JestCoverage => {
   const result: any = {};
   if (threshold) {
@@ -25,30 +24,71 @@ export const ratchetCoverage = (
 const ratchetSingleCoverage = (
   threshold: JestCoverageCategory,
   summary: IstanbulCoverageCategories,
-  options: RatchetOptions,
+  options: RatchetOptions
 ) => {
-  const { branches, functions, lines, statements } = threshold;
   return {
-    branches: ratchetSingleNumberCoverage(branches, summary.branches, options),
-    functions: ratchetSingleNumberCoverage(functions, summary.functions, options),
-    lines: ratchetSingleNumberCoverage(lines, summary.lines, options),
-    statements: ratchetSingleNumberCoverage(statements, summary.statements, options),
+    branches: ratchetSingleNumberCoverage('branches', threshold, summary, options),
+    functions: ratchetSingleNumberCoverage('functions', threshold, summary, options),
+    lines: ratchetSingleNumberCoverage('lines', threshold, summary, options),
+    statements: ratchetSingleNumberCoverage('statements', threshold, summary, options),
   };
 };
 
 const ratchetSingleNumberCoverage = (
-  num: number | undefined,
-  category: IstanbulCoverageCategory,
-  options: RatchetOptions,
+  categoryName: string,
+  threshold: JestCoverageCategory,
+  summary: IstanbulCoverageCategories,
+  options: RatchetOptions
 ) => {
-  if (category && typeof num === 'number') {
-    const tolerance = options.tolerance
-      ? Math.round(category.pct) - options.tolerance
-      : category.pct;
-    if (num >= 0 && num <= tolerance) {
-      return options.roundDown ? Math.floor(tolerance) : tolerance;
-    } else if (num < 0 && num >= -category.covered) {
-      return -category.covered;
+  const categoryThreshold = threshold[categoryName];
+  const categoryResult = summary[categoryName];
+
+  if (categoryResult && typeof categoryThreshold === 'number') {
+    const categoryResultPercent = categoryResult.pct - (options.tolerance || 0);
+
+    if (categoryThreshold >= 0 && categoryThreshold <= categoryResultPercent) {
+      return calculateThresholdPercent(categoryName, categoryResultPercent, options);
+    } else if (categoryThreshold < 0 && -categoryThreshold >= categoryResult.total - categoryResult.covered) {
+      return calculateThresholdCount(categoryName, categoryResult.total - categoryResult.covered, options);
     }
   }
+};
+
+const calculateThresholdPercent = (categoryName: string, categoryResultPercent: number, options: RatchetOptions) => {
+  const categoryPct = options.roundDown ? Math.floor(categoryResultPercent) : categoryResultPercent;
+  let maxValue: number | undefined;
+
+  if (typeof options.maxThresholds === 'number') {
+    maxValue = options.maxThresholds;
+  }
+
+  if (typeof options.maxThresholds === 'object') {
+    maxValue = options.maxThresholds[categoryName];
+  }
+
+  if (maxValue && categoryPct > maxValue) {
+    return maxValue;
+  }
+  return categoryPct;
+};
+
+const calculateThresholdCount = (categoryName: string, categoryResultUncovered: number, options: RatchetOptions) => {
+  let maxValue: number | undefined;
+
+  if (typeof options.maxThresholds === 'number' && options.maxThresholds < 0) {
+    maxValue = options.maxThresholds;
+  }
+
+  if (typeof options.maxThresholds === 'object') {
+    maxValue = options.maxThresholds[categoryName];
+    if (typeof maxValue !== 'number' || maxValue >= 0) {
+      maxValue = undefined;
+    }
+  }
+
+  if (maxValue && categoryResultUncovered < -maxValue) {
+    return maxValue;
+  }
+
+  return -categoryResultUncovered;
 };
